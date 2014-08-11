@@ -1,0 +1,17 @@
+INSTALLER_DIR="$HOME/dotfiles/osx";
+
+export CLICOLOR=1
+export LSCOLORS=gxfxcxdxbxegedabagacad
+export PS1="\[\033[1;33m \n[\t] imac:\W > \[\033[0m"
+
+export HISTCONTROL=erasedups
+export HISTSIZE=10000
+shopt -s histappend
+
+source $INSTALLER_DIR/export
+source $INSTALLER_DIR/alias
+
+export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH
+export MANPATH=/opt/local/share/man:$MANPATH
+
+source $INSTALLER_DIR/completion

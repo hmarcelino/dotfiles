@@ -1,0 +1,16 @@
+'exception-reporting':
+  'userId': '9683cfc6-b4c7-5ea9-af70-002528b8f8da'
+'welcome':
+  'showOnStartup': false
+'metrics':
+  'userId': 'afaa8e5c83efc50574392a1bdd85d00eebc9c0a4'
+'editor':
+  'fontSize': 12
+  'fontFamily': 'Monaco'
+  'tabLength': 4
+'core':
+  'themes': [
+    'atom-light-ui'
+    'atom-dark-syntax'
+  ]
+  'useReactEditor': true

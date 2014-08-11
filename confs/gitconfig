@@ -1,0 +1,29 @@
+[user]
+	name = Hugo Marcelino
+	email = hugo.marcelino@cultofbits.com
+[color]
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[core]
+	editor = vim
+	excludesfile = /Users/hugomarcelino/.gitignore_global
+[alias]
+    co = checkout
+    cb = checkout -b
+    mg = merge
+    up = fetch
+	st = status
+    ci = commit
+    br = branch
+    df = diff
+    lg = log -p
+    who = shortlog -s --
+    pr = pull --rebase
+    lgb = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --branches
+
+[github]
+	user = hmarcelino
+[push]
+	default = matching
