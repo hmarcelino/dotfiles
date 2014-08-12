@@ -1,6 +1,6 @@
 [user]
 	name = Hugo Marcelino
-	email = hugo.marcelino@cultofbits.com
+	email = hugo.m.marcelino@gmail.com
 [color]
 	branch = auto
 	diff = auto
@@ -8,7 +8,7 @@
 	status = auto
 [core]
 	editor = vim
-	excludesfile = /Users/hugomarcelino/.gitignore_global
+	excludesfile = /Users/hugomarcelino/.gitignore
 [alias]
     co = checkout
     cb = checkout -b
