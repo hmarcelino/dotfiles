@@ -14,10 +14,9 @@ function createSymlink {
         echo -e "${YELLOW}The $2 file is already a symbolic link. Removing it !${NOCOLOR}"
         rm $1
 
-    elif [-f $1 ]; then
+    elif [ -f $1 ] || [ -d $1 ]; then
         echo -e "${YELLOW}Backing up file $1 to $1.old !${NOCOLOR}"
         mv $1 $1.old
-
     fi
 
     ln -s $INSTALLER_DIR/$2 $1

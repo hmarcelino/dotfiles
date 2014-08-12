@@ -1,5 +1,5 @@
 eval "$($HOME/projects/company/CoB/utils/cob/bin/cob init -)"
-eval "$($INSTALLER_DIR/../hm/bin/hm init -)"
+eval "$(/Users/hugomarcelino/dotfiles/hm/bin/hm init -)"
 
 if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
    . /usr/local/etc/bash_completion.d/git-completion.bash

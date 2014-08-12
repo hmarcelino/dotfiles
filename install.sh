@@ -11,5 +11,5 @@
 # Configure other applications
 (cd confs && ./_install.sh)
 
-# Configure other applications
-(cd hm && ./_install.sh)
+# Install hm commands
+# (cd hm && ./_install.sh)
