@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# first Install osx command line configurations
+# first configure command line
 # Configure bash profile, ...
-(cd osx && ./_install.sh)
+(cd cmdline && ./_install.sh)
 
 # The install and configure applications
 # install necessary applications, copy preferences, ...
