@@ -1,6 +1,6 @@
 {
   "name": "language-groovy",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Groovy language support in Atom",
   "repository": {
@@ -15,13 +15,13 @@
   "bugs": {
     "url": "https://github.com/Jakehp/language-groovy/issues"
   },
-  "readme": "# Groovy language support in Atom\n\nAdds syntax highlighting and snippets to Groovy files in Atom.\n\nOriginally [converted](http://atom.io/docs/latest/converting-a-text-mate-bundle)\nfrom the [groovy.tmbundle](https://github.com/textmate/groovy.tmbundle).\n\nContributions are greatly appreciated. Please fork this repository and open a\npull request to add snippets, make grammar tweaks, etc.\n",
+  "readme": "# Groovy language support in Atom\n\nAdds syntax highlighting and snippets to Groovy files in Atom.\n\nOriginally [converted](http://atom.io/docs/latest/converting-a-text-mate-bundle)\nfrom the [groovy.tmbundle](https://github.com/textmate/groovy.tmbundle).\n\nContributions are *greatly* appreciated. Please fork this repository, open a pull request to add snippets, make grammar tweaks, fix issues, etc.\n\n## Installation\n\n```shell\napm install language-groovy\n```\nIf apm is not recognized, open Atom, open the Atom menu, and select \"Install Shell Commands\". Then try running the command again.\n",
   "readmeFilename": "README.md",
   "homepage": "https://github.com/Jakehp/language-groovy",
-  "_id": "language-groovy@0.2.0",
+  "_id": "language-groovy@0.3.0",
   "dist": {
-    "shasum": "01b697660b20206c51d21884244d3bdae7395f7f"
+    "shasum": "359f622bcfa0696934617741e4d5804e478611d6"
   },
-  "_resolved": "/var/folders/s4/26f3vrc974xggyqcbpkl2b0h0000gn/T/d-114622-48641-m5zf5y/package.tgz",
-  "_from": "/var/folders/s4/26f3vrc974xggyqcbpkl2b0h0000gn/T/d-114622-48641-m5zf5y/package.tgz"
+  "_resolved": "/var/folders/bz/pd39m27d3zd450421lqvdrrc0000gn/T/d-114712-50458-urx7vr/package.tgz",
+  "_from": "/var/folders/bz/pd39m27d3zd450421lqvdrrc0000gn/T/d-114712-50458-urx7vr/package.tgz"
 }
