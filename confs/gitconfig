@@ -1,29 +1,74 @@
 [user]
 	name = Hugo Marcelino
 	email = hugo.m.marcelino@gmail.com
+
 [color]
 	branch = auto
 	diff = auto
 	interactive = auto
 	status = auto
+
 [core]
 	editor = vim
 	excludesfile = /Users/hugomarcelino/.gitignore
+
 [alias]
+    alias = config --get-regexp alias # print the alias
+
     co = checkout
     cb = checkout -b
+
     mg = merge
-    up = fetch
-	st = status
+    mt = mergetool                    # fire up the merge tool
+
     ci = commit
+    ammend = commit --amend
+
+    up = fetch
+    pr = pull --rebase
+
+	st = status
     br = branch
     df = diff
+
+    # log
     lg = log -p
-    who = shortlog -s --
-    pr = pull --rebase
     lgb = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --branches
+    who = shortlog -s --
+    l = log --graph --date=short
+    changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
+    short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
+    simple = log --pretty=format:\" * %s\"
+    shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
+
+    # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+    snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+    snapshots = !git stash list --grep snapshot
+
+    #via http://stackoverflow.com/questions/5188320/how-can-i-get-a-list-of-git-branches-ordered-by-most-recent-commit
+    recent-branches = !git for-each-ref --count=5 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+   
+    # http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+    ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+    theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 
 [github]
 	user = hmarcelino
+
+[mergetool]
+  prompt = false
+
+[mergetool "mvimdiff"]
+  cmd="mvim -c 'Gdiff' $MERGED"     # use fugitive.vim for 3-way merge
+  keepbackup=false
+
+[merge]
+  summary = true
+  verbosity = 1
+  tool = mvimdiff
+
 [push]
-	default = matching
+  default = matching
+
+[ghi]
+	token = !security find-internet-password -a hmarcelino -s github.com -l 'ghi token' -w
