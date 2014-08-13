@@ -10,7 +10,7 @@
 TAB_NAME="none"
 PROFILE_NAME="default";
 
-while getopts "t:p:h" optname
+while getopts ":t:p:h" optname
 do
     case "$optname" in
         "t")
@@ -30,18 +30,16 @@ do
     esac
 done
 
-if [ $TAB_NAME = "none" ] || [ $TAB_NAME = "" ]; then
-  hm help iterm
-  exit 1
+if [ ! $TAB_NAME = "none" ] && [ ! $TAB_NAME = "" ]; then
+    TAB_NAME=`echo $TAB_NAME | tr [a-z] [A-Z]` > /dev/null
+    # change the tab title
+    echo -e "\033];$TAB_NAME\007"
 fi
 
-TAB_NAME=`echo $TAB_NAME | tr [a-z] [A-Z]` > /dev/null
-
-# change the tab title
-echo -e "\033];$TAB_NAME\007"
-
-# change the profile
-echo -e "\033]50;SetProfile=$PROFILE_NAME\a"
+if [ ! $PROFILE_NAME = "default" ]; then
+    # change the profile
+    echo -e "\033]50;SetProfile=$PROFILE_NAME\a"
+fi
 
 # done
 exit 0;
