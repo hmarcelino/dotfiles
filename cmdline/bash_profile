@@ -6,7 +6,7 @@ shopt -s histappend
 
 source $INSTALLER_DIR/prompt
 source $INSTALLER_DIR/export
-source $INSTALLER_DIR/alias
+source $INSTALLER_DIR/aliases
 
 export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
