@@ -20,7 +20,7 @@ It has the following structure:
    	 | - gitconfig
    	 | - vimrc
    	 
-   + hm: hm command line. From (sub)[https://github.com/basecamp/sub]
+   + hm: hm command line. More info in https://github.com/basecamp/sub.
 
 ```
 
