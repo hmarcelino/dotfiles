@@ -21,6 +21,7 @@
     mg = merge
     mt = mergetool                    # fire up the merge tool
 
+    pa = add --patch
     ci = commit
     ammend = commit --amend
 
@@ -29,6 +30,7 @@
 
 	st = status
     br = branch
+    lb = branch -a
     df = diff
 
     # log
