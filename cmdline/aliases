@@ -5,6 +5,7 @@ alias ll='ls -lGh'
 
 alias mvnd='mvn -Xnoagent -Djava.compiler=NONE -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8999'
 alias mci='mvn clean install'
+alias mcim='mvn clean install -pl'
 
 alias pt='cd ~/projects/company/pt'
 alias wd='cd ~/projects/company/CoB/'
