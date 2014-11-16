@@ -8,7 +8,7 @@ alias mci='mvn clean install'
 alias mcim='mvn clean install -pl'
 
 alias pt='cd ~/projects/company/pt'
-alias wd='cd ~/projects/company/CoB/'
+alias wd='cd ~/projects/company/cob/'
 
 alias go-prod="hm iterm -p production"
 alias go-dev="hm iterm -p development"
