@@ -57,6 +57,8 @@
     ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
     theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 
+    last-release = !git for-each-ref --count=10  --sort='*objecttype' refs/tags --format='%(refname:short)'
+
 [github]
 	user = hmarcelino
 
