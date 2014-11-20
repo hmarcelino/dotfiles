@@ -3,6 +3,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 export ANT_HOME=~/projects/engines/apache-ant-1.7.1
+export GRADLE_HOME=~/projects/engines/gradle-2.2
 export M2_HOME=~/projects/engines/maven
 export MAVEN_OPTS="-Dfile.encoding=utf-8 -Xmx512m -XX:MaxPermSize=256m "
 
@@ -16,4 +17,4 @@ export SVN_EDITOR=vim
 export MYSQL_HOME=/usr/local/mysql
 export NODE_PATH=/usr/local/share/npm/bin
 
-export PATH=/usr/local/bin:$NODE_PATH:$PAX_RUNNER/bin:$ANT_HOME/bin:$M2_HOME/bin:$GROOVY_HOME/bin:$GANT_HOME/bin:$PATH
+export PATH=/usr/local/bin:$NODE_PATH:$PAX_RUNNER/bin:$ANT_HOME/bin:$M2_HOME/bin:$GRADLE_HOME/bin:$GROOVY_HOME/bin:$GANT_HOME/bin:$PATH
