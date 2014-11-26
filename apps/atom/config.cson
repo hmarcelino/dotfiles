@@ -16,5 +16,6 @@
       'atom-dark-syntax'
     ]
     'useReactEditor': true
+  'run-command': {}
 '.gradle.groovy.source':
   'editor': {}

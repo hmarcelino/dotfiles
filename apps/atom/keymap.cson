@@ -21,4 +21,5 @@
     'cmd-y':'editor:delete-line'
     'cmd--': 'editor:toggle-line-comments'
     'shift-enter': 'editor:newline-below'
-    'cmd-alt-l':'editor:indent'
+    'cmd-alt-l':'editor:indent',
+    'shift-ctrl-j':'editor:join-lines'
