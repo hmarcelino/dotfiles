@@ -206,3 +206,11 @@ defaults write com.apple.Safari IncludeDevelopMenu -bool true
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
+#
+###############################################################################
+# Mail App Configurations                                                     #
+###############################################################################
+
+# Show all attachments in the MailApp as icons
+# http://endlessgeek.com/2014/02/osx-force-mail-app-show-attachments-icons/
+defaults write com.apple.mail DisableInlineAttachmentViewing -bool yes
