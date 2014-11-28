@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Usage: hm gen-ssh-key -n <name> [-h]
+# Summary: Generate a rsa public/private key with 1024 bits
+#
+# Help: Generate a rsa public/private key with 1024 bits
+#  -n  : the name of the private/public key
+#  -h  : access this help
+#
+#  * Example:  $> hm gen-ssh-key -n github
+
+NAME=""
+
+while getopts "n:" optname
+do
+    case "$optname" in
+        "n")
+            NAME="$OPTARG"
+        ;;
+        "h")
+            hm help gen-ssh-key
+            exit 0
+        ;;
+        "?")
+            echo "Unknown option $OPTARG"
+            exit 1
+            ;;
+        ":")
+            echo "No argument value for option $OPTARG"
+            exit 1
+            ;;
+        *)
+            # Should not occur
+            echo "Unknown error while processing options"
+        ;;
+    esac
+done
+
+if [[ $NAME == "" ]]; then
+    echo "Missing argument."
+    hm help gen-ssh-key
+    exit 1
+fi
+
+result=`ssh-keygen -t rsa -b 1024 -C $NAME -f ~/.ssh/$NAME`
+if [ $? -eq 0 ]; then
+    echo -e "Success generating public/private rsa key";
+    echo -e "public key:"
+    cat ~/.ssh/$NAME.pub
+
+else
+    echo "Error generating public/private rsa key";
+    exit 1
+fi
+
+exit 0
