@@ -11,7 +11,7 @@
 
 NAME=""
 
-while getopts "n:" optname
+while getopts "n:h" optname
 do
     case "$optname" in
         "n")
