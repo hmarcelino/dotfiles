@@ -26,6 +26,7 @@
     pa = add --patch
     ci = commit
     ammend = commit --amend
+    undo = reset --soft HEAD~1        # undo the last commit
 
     up = fetch
     pr = pull --rebase
