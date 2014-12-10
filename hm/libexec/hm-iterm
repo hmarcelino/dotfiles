@@ -22,11 +22,16 @@ do
         "h")
             hm help iterm
             exit 0
+        "?")
+            echo "Unknown option $OPTARG"
             ;;
-        "*")
-            echo "Illegal option"
-            exit 1
+        ":")
+            echo "No argument value for option $OPTARG"
             ;;
+         *)
+            # Should not occur
+            echo "Unknown error while processing options"
+         ;;
     esac
 done
 
