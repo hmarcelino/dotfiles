@@ -30,6 +30,7 @@
 
     up = fetch
     pr = pull --rebase
+    synctags = !sh -c 'git tag -l | xargs git tag -d && git fetch'
 
 	st = status
     br = branch
@@ -42,10 +43,8 @@
     lgb = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --branches
     who = shortlog -s --
     l = log --graph --date=short
-    changes = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\" --name-status
-    short = log --pretty=format:\"%h %cr %cn %Cgreen%s%Creset\"
-    simple = log --pretty=format:\" * %s\"
-    shortnocolor = log --pretty=format:\"%h %cr %cn %s\"
+    logchanges = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cgreen\\ [%cn]" --decorate --numstat
+    logsimple = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cgreen\\ [%cn]" --decorate --date=short
 
     # via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
     snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
