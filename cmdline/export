@@ -1,5 +1,5 @@
 # fix for problem: http://stackoverflow.com/questions/7165108/in-osx-lion-lang-is-not-set-to-utf8-how-fix
-export LC_ALL=en_US.UTF-8  
+export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 export ANT_HOME=~/projects/engines/apache-ant-1.7.1
@@ -10,7 +10,7 @@ export GRADLE_HOME=~/projects/engines/gradle-2.2
 
 export BERKELEY_DB_HOME=/usr/local/db-6.1.19/
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export JAVA_OPTS="-Dfile.encoding=utf-8 -Xmx1024m -XX:MaxPermSize=512m -Dcom.sun.management.jmxremote"
 
 export GROOVY_HOME=~/projects/groovy
@@ -19,5 +19,6 @@ export CATALINA_HOME=~/projects/tomcat
 export SVN_EDITOR=vim
 export MYSQL_HOME=/usr/local/mysql
 export NODE_PATH=/usr/local/share/npm/bin
+export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
 
 export PATH=$JAVA_HOME/bin:/usr/local/bin:$NODE_PATH:$PAX_RUNNER/bin:$ANT_HOME/bin:$M2_HOME/bin:$GRADLE_HOME/bin:$GROOVY_HOME/bin:$GANT_HOME/bin:$PATH
