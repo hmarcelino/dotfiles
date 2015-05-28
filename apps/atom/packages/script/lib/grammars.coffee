@@ -1,6 +1,9 @@
 # Maps Atom Grammar names to the command used by that language
 # As well as any special setup for arguments.
 
+_ = require 'underscore'
+GrammarUtils = require '../lib/grammar-utils'
+
 module.exports =
   AppleScript:
     'Selection Based':
@@ -14,10 +17,31 @@ module.exports =
     "File Based":
       command: "behat"
       args: (context) -> ['--ansi', context.filepath]
-    "Line Based":
+    "Line Number Based":
       command: "behat"
       args: (context) -> ['--ansi', context.fileColonLine()]
 
+  Batch:
+    "File Based":
+      command: ""
+      args: (context) -> [context.filepath]
+  C:
+    if GrammarUtils.OperatingSystem.isDarwin()
+      "File Based":
+        command: "bash"
+        args: (context) -> ['-c', "xcrun clang -fcolor-diagnostics -Wall -include stdio.h " + context.filepath + " -o /tmp/c.out && /tmp/c.out"]
+
+  'C++':
+    if GrammarUtils.OperatingSystem.isDarwin()
+      "File Based":
+        command: "bash"
+        args: (context) -> ['-c', "xcrun clang++ -fcolor-diagnostics -Wc++11-extensions -Wall -include stdio.h -include iostream " + context.filepath + " -o /tmp/cpp.out && /tmp/cpp.out"]
+  
+  'C# Script File':
+    "File Based":
+      command: "scriptcs"
+      args: (context) -> ['-script', context.filepath]
+  
   CoffeeScript:
     "Selection Based":
       command: "coffee"
@@ -32,6 +56,11 @@ module.exports =
       args: (context)  -> ['-e', context.getCode()]
     "File Based":
       command: "coffee"
+      args: (context) -> [context.filepath]
+
+  D:
+    "File Based":
+      command: "rdmd"
       args: (context) -> [context.filepath]
 
   Elixir:
@@ -49,14 +78,19 @@ module.exports =
 
   'F#':
     "File Based":
-      command: "fsharpi"
+      command: if GrammarUtils.OperatingSystem.isWindows() then "fsi" else "fsharpi"
       args: (context) -> ['--exec', context.filepath]
+
+  Forth:
+    "File Based":
+      command: "gforth"
+      args: (context) -> [context.filepath]
 
   Gherkin:
     "File Based":
       command: "cucumber"
       args: (context) -> ['--color', context.filepath]
-    "Line Based":
+    "Line Number Based":
       command: "cucumber"
       args: (context) -> ['--color', context.fileColonLine()]
 
@@ -105,22 +139,62 @@ module.exports =
       command: "julia"
       args: (context) -> [context.filepath]
 
+  Kotlin:
+    "Selection Based":
+      command: "bash"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".kt")
+        jarName = tmpFile.replace /\.kt$/, ".jar"
+        args = ['-c', "kotlinc #{tmpFile} -include-runtime -d #{jarName} && java -jar #{jarName} && rm #{jarName}"]
+        return args
+    "File Based":
+      command: "bash"
+      args: (context) ->
+        jarName = context.filename.replace /\.kt$/, ".jar"
+        args = ['-c', "kotlinc #{context.filepath} -include-runtime -d #{jarName} && java -jar #{jarName} && rm #{jarName}"]
+        return args
+
+  LilyPond:
+    "File Based":
+      command: "lilypond"
+      args: (context) -> [context.filepath]
+
+  Lisp:
+    "Selection Based":
+      command: "sbcl"
+      args: (context) ->
+        statements = _.flatten(_.map(GrammarUtils.Lisp.splitStatements(context.getCode()), (statement) -> ['--eval', statement]))
+        args = _.union ['--noinform', '--disable-debugger', '--non-interactive', '--quit'], statements
+        return args
+    "File Based":
+      command: "sbcl"
+      args: (context) -> ['--noinform', '--script', context.filepath]
+
+  'Literate Haskell':
+    "File Based":
+      command: "runhaskell"
+      args: (context) -> [context.filepath]
+
   LiveScript:
     "Selection Based":
-      command: "livescript"
-      args: (code)  -> ['-e', code]
+      command: "lsc"
+      args: (context)  -> ['-e', context.getCode()]
     "File Based":
-      command: "livescript"
-      args: (filename) -> [filename]
+      command: "lsc"
+      args: (context) -> [context.filepath]
 
   Lua:
     "Selection Based":
       command: "lua"
-      args: (context)  -> ['-e', context.getCode()]
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code)
+        [tmpFile]
     "File Based":
       command: "lua"
       args: (context) -> [context.filepath]
-      
+
   MoonScript:
     "Selection Based":
       command: "moon"
@@ -128,7 +202,7 @@ module.exports =
     "File Based":
       command: "moon"
       args: (context) -> [context.filepath]
-      
+
   newLISP:
     "Selection Based":
       command: "newlisp"
@@ -137,10 +211,30 @@ module.exports =
       command: "newlisp"
       args: (context) -> [context.filepath]
 
+  'Objective-C':
+    if GrammarUtils.OperatingSystem.isDarwin()
+      "File Based":
+        command: "bash"
+        args: (context) -> ['-c', "xcrun clang -fcolor-diagnostics -Wall -include stdio.h -framework Cocoa " + context.filepath + " -o /tmp/objc-c.out && /tmp/objc-c.out"]
+
+  'Objective-C++':
+    if GrammarUtils.OperatingSystem.isDarwin()
+      "File Based":
+        command: "bash"
+        args: (context) -> ['-c', "xcrun clang++ -fcolor-diagnostics -Wc++11-extensions -Wall -include stdio.h -include iostream -framework Cocoa " + context.filepath + " -o /tmp/objc-cpp.out && /tmp/objc-cpp.out"]
+
+  ocaml:
+    "File Based":
+      command: "ocaml"
+      args: (context) -> [context.filepath]
+
   PHP:
     "Selection Based":
       command: "php"
-      args: (context)  -> ['-r', context.getCode()]
+      args: (context) ->
+        code = context.getCode()
+        file = GrammarUtils.PHP.createTempFileWithCode(code)
+        [file]
     "File Based":
       command: "php"
       args: (context) -> [context.filepath]
@@ -156,7 +250,7 @@ module.exports =
   PowerShell:
     "File Based":
       command: "powershell"
-      args: (context) -> [context.filepath]
+      args: (context) -> [context.filepath.replace /\ /g, "` "]
 
   Python:
     "Selection Based":
@@ -171,6 +265,14 @@ module.exports =
       command: "Rscript"
       args: (context) -> [context.filepath]
 
+  Racket:
+    "Selection Based":
+      command: "racket"
+      args: (context) -> ['-e', context.getCode()]
+    "File Based":
+      command: "racket"
+      args: (context) -> [context.filepath]
+
   RSpec:
     "Selection Based":
       command: "ruby"
@@ -178,7 +280,7 @@ module.exports =
     "File Based":
       command: "rspec"
       args: (context) -> ['--tty', '--color', context.filepath]
-    "Line Based":
+    "Line Number Based":
       command: "rspec"
       args: (context) -> ['--tty', '--color', context.fileColonLine()]
 
@@ -190,12 +292,30 @@ module.exports =
       command: "ruby"
       args: (context) -> [context.filepath]
 
-  'Shell Script (Bash)':
+  'Ruby on Rails':
     "Selection Based":
-      command: "bash"
-      args: (context)  -> ['-c', context.getCode()]
+      command: "rails"
+      args: (context)  -> ['runner', context.getCode()]
+    "File Based":
+      command: "rails"
+      args: (context) -> ['runner', context.filepath]
+
+  Rust:
     "File Based":
       command: "bash"
+      args: (context) -> ['-c', "rustc " + context.filepath + " -o /tmp/rs.out && /tmp/rs.out"]
+
+  Makefile:
+    "Selection Based":
+      command: "bash"
+      args: (context) -> ['-c', context.getCode()]
+    "File Based":
+      command: "make"
+      args: (context) -> ['-f', context.filepath]
+
+  Sass:
+    "File Based":
+      command: "sass"
       args: (context) -> [context.filepath]
 
   Scala:
@@ -214,7 +334,33 @@ module.exports =
       command: "guile"
       args: (context) -> [context.filepath]
 
+  SCSS:
+    "File Based":
+      command: "sass"
+      args: (context) -> [context.filepath]
+
+  "Shell Script":
+    "Selection Based":
+      command: "bash"
+      args: (context)  -> ['-c', context.getCode()]
+    "File Based":
+      command: "bash"
+      args: (context) -> [context.filepath]
+
+  "Shell Script (Fish)":
+    "Selection Based":
+      command: "fish"
+      args: (context)  -> ['-c', context.getCode()]
+    "File Based":
+      command: "fish"
+      args: (context) -> [context.filepath]
+
+  "Standard ML":
+    "File Based":
+      command: "sml"
+      args: (context) -> [context.filepath]
+
   Swift:
     "File Based":
       command: "xcrun"
-      args: (context) -> ['swift', '-i', context.filepath]
+      args: (context) -> ['swift', context.filepath]

@@ -1,3 +1,85 @@
+## 2.23.0
+* Added scriptcs support
+
+## 2.22.0
+* Removed support for Atom Achievements :( (breaks the coming 1.0 API)
+* Support for Kotlinc
+* New way for us to manage contributions and changelog
+
+## 2.21.0
+* Update BufferedProcess API
+* Addressed deprecations from the Atom API
+* Use the new Path API
+
+## 2.20.0
+* Add OCaml support
+* :checkered_flag: Enhance selection based Lua support
+
+## 2.19.0
+* Add Racket support
+* Add Forth support
+
+## 2.18.0
+* Fixed scrolling with output
+
+## 2.17.1
+* Updates keyboard shortcuts for running in Windows
+
+## 2.17.0
+* TODO...
+
+## 2.16.0
+* Add D support
+* Add Rust support
+* Fix broken ANSI/HTML escaping [#238](https://github.com/rgbkrk/atom-script/issues/238)
+* Turn on colored diagnostics for the C language family
+
+## 2.15.1
+* Remove a unused import from script.less
+
+## 2.15.0
+* Add temporary file support
+* Enhance PHP selection based runner
+
+## 2.14.0
+* Add the ability to unescape HTML output (configuration option)
+* Add total execution time to output (configuration option)
+* Update Shell Script grammar name
+* Update PowerShell runner to support files with whitespace in the name
+
+## 2.13.0
+* Add Sass support
+* Add SCSS support
+
+## 2.12.1
+* Update the LiveScript command to `lsc` vs. `livescript`. Since [v1.1.0](http://livescript.net/blog/livescript-1.1.0.html) `lsc` was previously available as an alias and now the official command to run code.
+
+## 2.12.0
+* Add SML support
+* Add the OperatingSystem grammar utils for platform specific run code
+* Add Mac OS X specific C, C++, Objective-C, and Objective-C++ file based runs
+
+## 2.11.2
+* Incidental release -- no new changes
+
+## 2.11.1
+* Rename "Line Based runs" to "Line Number Based runs"
+
+## 2.11.0
+* Add Batch support
+
+## 2.10.1
+* Update LiveScript to use newer grammar mapping
+
+## 2.10.0
+* Fix Swift against Xcode Beta 5
+
+## 2.9.0
+* Add LilyPond support
+* Add "Ruby on Rails" support
+* Add Makefile support
+* Now handling shebangs!
+
 ## 2.8.0
 * Add Swift support
 * Add PowerShell support
@@ -6,7 +88,6 @@
 * The escape key will now close the script output pane
 * More tests, because this project definitely needs more tests
 * Support for MoonScript
-
 
 ## 2.6.0
 * Added line based support
@@ -74,17 +155,17 @@
 * Added Groovy support
 * Added Scala support
 
-##2.0.4
+## 2.0.4
 * Added file based Haskell support
 
-##2.0.3
+## 2.0.3
 * Escaped ANSI to HTML
 * Added contributors to package.json
 
-##2.0.1-2.0.2
+## 2.0.1-2.0.2
 * Documentation patches
 
-##2.0.0
+## 2.0.0
 - Completely new UI
 - Status indicators / icons for script run, stop, kill, complete
 - Updated commands to kill process and dismiss script view

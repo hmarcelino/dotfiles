@@ -1,7 +1,7 @@
 {
   "main": "./index.coffee",
   "name": "pretty-json",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "description": "Format JSON",
   "keywords": [
     "JSON",
@@ -26,10 +26,64 @@
     "url": "https://github.com/federomero/pretty-json/issues"
   },
   "homepage": "https://github.com/federomero/pretty-json",
-  "_id": "pretty-json@0.3.0",
-  "dist": {
-    "shasum": "39f71d826a930ce937902df1476eb1a4936bdab2"
-  },
-  "_resolved": "/var/folders/s4/26f3vrc974xggyqcbpkl2b0h0000gn/T/d-11468-5340-6lzvwp/package.tgz",
-  "_from": "/var/folders/s4/26f3vrc974xggyqcbpkl2b0h0000gn/T/d-11468-5340-6lzvwp/package.tgz"
+  "_id": "pretty-json@0.3.3",
+  "_shasum": "88074951e573d4951b23e24d7590c24c4f840dfa",
+  "_resolved": "file:../d-115422-66006-7b8qyl/package.tgz",
+  "_from": "../d-115422-66006-7b8qyl/package.tgz",
+  "_atomModuleCache": {
+    "version": 1,
+    "dependencies": [
+      {
+        "name": "json-stable-stringify",
+        "version": "0.1.3",
+        "path": "node_modules/json-stable-stringify/index.js"
+      },
+      {
+        "name": "jsonify",
+        "version": "0.0.0",
+        "path": "node_modules/json-stable-stringify/node_modules/jsonify/index.js"
+      }
+    ],
+    "extensions": {
+      ".coffee": [
+        "index.coffee"
+      ],
+      ".js": [
+        "node_modules/json-stable-stringify/example/key_cmp.js",
+        "node_modules/json-stable-stringify/example/nested.js",
+        "node_modules/json-stable-stringify/example/str.js",
+        "node_modules/json-stable-stringify/example/value_cmp.js",
+        "node_modules/json-stable-stringify/index.js",
+        "node_modules/json-stable-stringify/node_modules/jsonify/index.js",
+        "node_modules/json-stable-stringify/node_modules/jsonify/lib/parse.js",
+        "node_modules/json-stable-stringify/node_modules/jsonify/lib/stringify.js"
+      ],
+      ".json": [
+        "node_modules/json-stable-stringify/node_modules/jsonify/package.json",
+        "node_modules/json-stable-stringify/package.json",
+        "package.json"
+      ]
+    },
+    "folders": [
+      {
+        "paths": [
+          "",
+          "spec"
+        ],
+        "dependencies": {
+          "json-stable-stringify": "~0.1.1"
+        }
+      },
+      {
+        "paths": [
+          "node_modules/json-stable-stringify/example",
+          "node_modules/json-stable-stringify",
+          "node_modules/json-stable-stringify/test"
+        ],
+        "dependencies": {
+          "jsonify": "~0.0.0"
+        }
+      }
+    ]
+  }
 }

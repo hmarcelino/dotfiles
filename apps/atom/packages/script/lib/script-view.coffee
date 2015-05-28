@@ -1,15 +1,19 @@
 grammarMap = require './grammars'
-{View, BufferedProcess, $$} = require 'atom'
+
+{BufferedProcess, CompositeDisposable} = require 'atom'
+{View, $$} = require 'atom-space-pen-views'
 CodeContext = require './code-context'
 HeaderView = require './header-view'
 ScriptOptionsView = require './script-options-view'
 AnsiFilter = require 'ansi-to-html'
+stripAnsi = require 'strip-ansi'
 _ = require 'underscore'
 
 # Runs a portion of a script through an interpreter and displays it line by line
 module.exports =
 class ScriptView extends View
   @bufferedProcess: null
+  @results: ""
 
   @content: ->
     @div =>
@@ -22,11 +26,15 @@ class ScriptView extends View
         @div class: 'panel-body padded output', outlet: 'output'
 
   initialize: (serializeState, @runOptions) ->
-    # Bind commands
-    atom.workspaceView.command 'script:run', => @defaultRun()
-    atom.workspaceView.command 'script:run-at-line', => @lineRun()
-    atom.workspaceView.command 'script:close-view', => @close()
-    atom.workspaceView.command 'script:kill-process', => @stop()
+    @subscriptions = new CompositeDisposable
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'core:cancel': => @close()
+      'core:close': => @close()
+      'script:close-view': => @close()
+      'script:copy-run-results': => @copyResults()
+      'script:kill-process': => @stop()
+      'script:run-by-line-number': => @lineRun()
+      'script:run': => @defaultRun()
 
     @ansiFilter = new AnsiFilter
 
@@ -34,10 +42,18 @@ class ScriptView extends View
 
   updateOptions: (event) -> @runOptions = event.runOptions
 
+  getShebang: (editor) ->
+    text = editor.getText()
+    lines = text.split("\n")
+    firstLine = lines[0]
+    return unless firstLine.match(/^#!/)
+
+    firstLine.replace(/^#!\s*/, '')
+
   initCodeContext: (editor) ->
     filename = editor.getTitle()
     filepath = editor.getPath()
-    selection = editor.getSelection()
+    selection = editor.getLastSelection()
 
     # If the selection was empty "select" ALL the text
     # This allows us to run on new files
@@ -48,6 +64,7 @@ class ScriptView extends View
 
     codeContext = new CodeContext(filename, filepath, textSource)
     codeContext.selection = selection
+    codeContext.shebang = @getShebang(editor)
 
     # Get language
     lang = @getLang editor
@@ -59,7 +76,7 @@ class ScriptView extends View
 
   lineRun: ->
     @resetView()
-    codeContext = @buildCodeContext('Line Based')
+    codeContext = @buildCodeContext('Line Number Based')
     @start(codeContext) unless not codeContext?
 
   defaultRun: ->
@@ -69,7 +86,7 @@ class ScriptView extends View
 
   buildCodeContext: (argType='Selection Based') ->
     # Get current editor
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     # No editor available, do nothing
     return unless editor?
 
@@ -77,16 +94,16 @@ class ScriptView extends View
 
     codeContext.argType = argType
 
-    if argType == 'Line Based'
+    if argType == 'Line Number Based'
       editor.save()
     else if codeContext.selection.isEmpty() and codeContext.filepath?
       codeContext.argType = 'File Based'
       editor.save()
 
-    # Selection and Line Based runs both benefit from knowing the current line
+    # Selection and Line Number Based runs both benefit from knowing the current line
     # number
     unless argType == 'File Based'
-      cursor = editor.getCursor()
+      cursor = editor.getLastCursor()
       codeContext.lineNumber = cursor.getScreenRow() + 1
 
     return codeContext
@@ -100,13 +117,13 @@ class ScriptView extends View
       return
 
     commandContext = @setupRuntime codeContext
-    @run commandContext.command, commandContext.args if commandContext
+    @run commandContext.command, commandContext.args, codeContext if commandContext
 
   resetView: (title = 'Loading...') ->
     # Display window and load message
 
     # First run, create view
-    atom.workspaceView.prependToBottom this unless @hasParent()
+    atom.workspace.addBottomPanel(item: this) unless @hasParent()
 
     # Close any existing process and start a new one
     @stop()
@@ -117,10 +134,16 @@ class ScriptView extends View
     # Get script view ready
     @output.empty()
 
+    # Remove the old script results
+    @results = ""
+
   close: ->
     # Stop any running process and dismiss window
     @stop()
     @detach() if @hasParent()
+
+  destroy: ->
+    @subscriptions?.dispose()
 
   getLang: (editor) -> editor.getGrammar().name
 
@@ -130,7 +153,7 @@ class ScriptView extends View
     # Determine if no language is selected.
     if lang is 'Null Grammar' or lang is 'Plain Text'
       err = $$ ->
-        @p 'You must select a language in the lower left, or save the file
+        @p 'You must select a language in the lower right, or save the file
           with an appropriate extension.'
 
     # Provide them a dialog to submit an issue on GH, prepopulated with their
@@ -158,35 +181,49 @@ class ScriptView extends View
     try
       if not @runOptions.cmd? or @runOptions.cmd is ''
         # Precondition: lang? and lang of grammarMap
-        commandContext.command = grammarMap[codeContext.lang][codeContext.argType].command
+        commandContext.command = codeContext.shebangCommand() or grammarMap[codeContext.lang][codeContext.argType].command
       else
         commandContext.command = @runOptions.cmd
 
       buildArgsArray = grammarMap[codeContext.lang][codeContext.argType].args
 
     catch error
-      err = $$ ->
-        @p class: 'block', "#{codeContext.argType} runner not available for #{codeContext.lang}."
-        @p class: 'block', =>
-          @text 'If it should exist, add an '
-          @a href: "https://github.com/rgbkrk/atom-script/issues/\
-            new?title=Add%20support%20for%20#{codeContext.lang}", 'issue on GitHub'
-          @text ', or send your own pull request.'
-
+      err = @createGitHubIssueLink codeContext
       @handleError err
+
       return false
 
     # Update header to show the lang and file name
-    if codeContext.argType is 'Line Based'
+    if codeContext.argType is 'Line Number Based'
       @headerView.title.text "#{codeContext.lang} - #{codeContext.fileColonLine(false)}"
     else
       @headerView.title.text "#{codeContext.lang} - #{codeContext.filename}"
 
-    commandContext.args = buildArgsArray codeContext
-
+    try
+      commandContext.args = buildArgsArray codeContext
+    catch errorSendByArgs
+      @handleError errorSendByArgs
+      return false
 
     # Return setup information
     return commandContext
+
+  createGitHubIssueLink: (codeContext) ->
+    title = "Add #{codeContext.argType} support for #{codeContext.lang}"
+    body = """
+           ##### Platform: `#{process.platform}`
+           ---
+           """
+    encodedURI = encodeURI("https://github.com/rgbkrk/atom-script/issues/new?title=#{title}&body=#{body}")
+    # NOTE: Replace "#" after regular encoding so we don't double escape it.
+    encodedURI = encodedURI.replace(/#/g, '%23')
+
+    $$ ->
+      @p class: 'block', "#{codeContext.argType} runner not available for #{codeContext.lang}."
+      @p class: 'block', =>
+        @text 'If it should exist, add an '
+        @a href: encodedURI, 'issue on GitHub'
+        @text ', or send your own pull request.'
 
   handleError: (err) ->
     # Display error and kill process
@@ -195,18 +232,26 @@ class ScriptView extends View
     @output.append err
     @stop()
 
-  run: (command, extraArgs) ->
-    atom.emit 'achievement:unlock', msg: 'Homestar Runner'
+  run: (command, extraArgs, codeContext) ->
+    startTime = new Date()
 
     # Default to where the user opened atom
     options =
       cwd: @getCwd()
-      env: process.env
+      env: @runOptions.mergedEnv(process.env)
     args = (@runOptions.cmdArgs.concat extraArgs).concat @runOptions.scriptArgs
+    if not @runOptions.cmd? or @runOptions.cmd is ''
+      args = codeContext.shebangCommandArgs().concat args
 
     stdout = (output) => @display 'stdout', output
     stderr = (output) => @display 'stderr', output
     exit = (returnCode) =>
+      @bufferedProcess = null
+
+      if (atom.config.get 'script.enableExecTime') is true
+        executionTime = (new Date().getTime() - startTime.getTime()) / 1000
+        @display 'stdout', '[Finished in '+executionTime.toString()+'s]'
+
       if returnCode is 0
         @headerView.setStatus 'stop'
       else
@@ -218,30 +263,55 @@ class ScriptView extends View
       command, args, options, stdout, stderr, exit
     })
 
-    @bufferedProcess.process.on 'error', (nodeError) =>
+    @bufferedProcess.onWillThrowError (nodeError) =>
+      @bufferedProcess = null
       @output.append $$ ->
         @h1 'Unable to run'
         @pre _.escape command
         @h2 'Is it on your path?'
         @pre "PATH: #{_.escape process.env.PATH}"
+      nodeError.handle()
 
   getCwd: ->
-    if not @runOptions.workingDirectory? or @runOptions.workingDirectory is ''
-      atom.project.getPath()
-    else
-      @runOptions.workingDirectory
+    cwd = @runOptions.workingDirectory
+
+    workingDirectoryProvided = cwd? and cwd isnt ''
+    paths = atom.project.getPaths()
+    if not workingDirectoryProvided and paths?.length > 0
+      cwd = paths[0]
+
+    cwd
 
   stop: ->
     # Kill existing process if available
-    if @bufferedProcess? and @bufferedProcess.process?
+    if @bufferedProcess?
       @display 'stdout', '^C'
       @headerView.setStatus 'kill'
       @bufferedProcess.kill()
+      @bufferedProcess = null
 
   display: (css, line) ->
-    line = _.escape(line)
+    @results += line
+
+    if atom.config.get('script.escapeConsoleOutput')
+      line = _.escape(line)
+
     line = @ansiFilter.toHtml(line)
+
+    padding = parseInt(@output.css('padding-bottom'))
+    scrolledToEnd =
+      @script.scrollBottom() == (padding + @output.trueHeight())
+
+    lessThanFull = @output.trueHeight() <= @script.trueHeight()
 
     @output.append $$ ->
       @pre class: "line #{css}", =>
         @raw line
+
+    if atom.config.get('script.scrollWithOutput')
+      if lessThanFull or scrolledToEnd
+        @script.scrollTop(@output.trueHeight())
+
+  copyResults: ->
+    if @results
+      atom.clipboard.write stripAnsi(@results)

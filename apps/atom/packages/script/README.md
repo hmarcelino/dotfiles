@@ -1,34 +1,52 @@
-# Run code in Atom!
+# Script [![Build Status](http://img.shields.io/travis/rgbkrk/atom-script.svg?style=flat)](https://travis-ci.org/rgbkrk/atom-script)
+**Run code in Atom!**
+
+Run scripts based on file name, a selection of code, or by line number.
 
 ![](https://cloud.githubusercontent.com/assets/1694055/3226201/c458acbc-f067-11e3-84a0-da27fe334f5e.gif)
-
-Run selections of code, code based on line number, or the whole file!
 
 Currently supported grammars are:
 
   * AppleScript
   * Bash
   * Behat Feature
+  * C <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
+  * C++ <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
+  * C# Script <sup>[*](#asterisk)</sup>
   * Coffeescript
-  * CoffeeScript (Literate) <sup>^</sup>
-  * Cucumber (Gherkin) <sup>*</sup>
+  * CoffeeScript (Literate) <sup>[^](#caret)</sup>
+  * Cucumber (Gherkin) <sup>[*](#asterisk)</sup>
+  * D <sup>[*](#asterisk)</sup>
   * Elixir
-  * Erlang <sup>†</sup>
-  * F# <sup>*</sup>
-  * Go <sup>*</sup>
+  * Erlang <sup>[†](#dagger)</sup>
+  * F# <sup>[*](#asterisk)</sup>
+  * Forth (via GForth)
+  * Go <sup>[*](#asterisk)</sup>
   * Groovy
   * Haskell
   * Javascript
   * Julia
+  * Kotlin
+  * LilyPond
+  * Lisp (via SBCL) <sup>[⍵](#omega)</sup>
+  * Literate Haskell <sup>[*](#asterisk)</sup>
   * LiveScript
   * Lua
+  * Makefile
   * MoonScript
   * newLISP
+  * Objective-C <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
+  * Objective-C++ <sup>[*](#asterisk)</sup><sup>[‡](#double-dagger)</sup>
+  * OCaml <sup>[*](#asterisk)</sup>
   * Perl
   * PHP
   * Python
   * RSpec
+  * Racket
   * Ruby
+  * Ruby on Rails
+  * Rust
+  * Sass/SCSS <sup>[*](#asterisk)</sup>
   * Scala
   * Swift
 
@@ -38,11 +56,15 @@ You only have to add a few lines in a PR to support another.
 
 ### Limitations
 
-<sup>^</sup> Running selections of code for CoffeeScript (Literate) only works when selecting just the code blocks
+<a name="caret"></a><sup>^</sup> Running selections of code for CoffeeScript (Literate) only works when selecting just the code blocks
 
-<sup>†</sup> Erlang uses `erl` for limited selection based runs (see [#70](https://github.com/rgbkrk/atom-script/pull/70))
+<a name="dagger"></a><sup>†</sup> Erlang uses `erl` for limited selection based runs (see [#70](https://github.com/rgbkrk/atom-script/pull/70))
 
-<sup>\*</sup> Cucumber (Gherkin), Go, F#, PowerShell, and Swift do not support selection based runs
+<a name="asterisk"></a><sup>*</sup> Cucumber (Gherkin), D, Go, F#, Literate Haskell, OCaml, PowerShell, and Swift do not support selection based runs
+
+<a name="omega"></a><sup>⍵</sup> Lisp selection based runs are limited to single line
+
+<a name="double-dagger"></a><sup>‡</sup> C, C++, Objective-C, and Objective-C++ are currently only available for Mac OS X (where `process.platform is 'darwin'`). This is possible due to the commands `xcrun clang` and `xcrun clang++`. **NOTE**: Xcode and the Xcode command line tools are required to ensure `xcrun` and the correct compilers on your system.
 
 ## Installation
 
@@ -66,9 +88,9 @@ Make sure to run `atom` from the command line to get full access to your environ
 
 **Script: Run** while text is selected will perform a "Selection Based" run executing just the highlighted code.
 
-**Script: Run at Line** to run using the specified line number. **Note** that if you select an entire line this number could be off by one due to the way Atom detects numbers while text is selected.
+**Script: Run by Line Number** to run using the specified line number. **Note** that if you select an entire line this number could be off by one due to the way Atom detects numbers while text is selected.
 
-**Script: Run Options** should be used to configure command options and program arguments for a "File Based" or "Selection Based" run.
+**Script: Run Options** should be used to configure command options, program arguments, and environment variables overrides. Environment variables may be input into the options view in the form `VARIABLE_NAME_ONE=value;VARIABLE_NAME_TWO="other value";VARIABLE_NAME_3='test'`
 
 **Script: Kill Process** will kill the process but leaves the pane open.
 
@@ -77,15 +99,18 @@ Make sure to run `atom` from the command line to get full access to your environ
 To kill everything, click the close icon in the upper right and just go back to
 coding.
 
+**Script: Copy Run Results** copies everything written to the output pane to the
+clipboard, allowing you to paste it into the editor.
+
 ### Command and shortcut reference
 
-| Command              | Mac OS X                            | Linux/Windows               | Notes                                                                         |
-|----------------------|-------------------------------------|-----------------------------|-------------------------------------------------------------------------------|
-| Script: Run          | <kbd>cmd-i</kbd>                    | <kbd>ctrl-b</kbd>           | If text is selected a "Selection Based" is used instead of a "File Based" run |
-| Script: Run at Line  | <kbd>shift-cmd-j</kbd>              | <kbd>shift-ctrl-j</kbd>      | If text is selected the line number will be the last                          |
-| Script: Run Options  | <kbd>shift-cmd-i</kbd>              | <kbd>shift-ctrl-alt-o</kbd> | Runs the selection or whole file with the given options                       |
-| Script: Close View   | <kbd>esc</kbd> or <kbd>ctrl-w</kbd> | <kbd>esc</kbd>              | Closes the script view window                                                 |
-| Script: Kill Process | <kbd>ctrl-c</kbd>                   | <kbd>ctrl-q</kbd>           | Kills the current script process                                              |
+| Command                    | Mac OS X                            | Linux/Windows               | Notes                                                                         |
+|----------------------------|-------------------------------------|-----------------------------|-------------------------------------------------------------------------------|
+| Script: Run                | <kbd>cmd-i</kbd>                    | <kbd>shift-ctrl-b</kbd>     | If text is selected a "Selection Based" is used instead of a "File Based" run |
+| Script: Run by Line Number | <kbd>shift-cmd-j</kbd>              | <kbd>shift-ctrl-j</kbd>     | If text is selected the line number will be the last                          |
+| Script: Run Options        | <kbd>shift-cmd-i</kbd>              | <kbd>shift-ctrl-alt-o</kbd> | Runs the selection or whole file with the given options                       |
+| Script: Close View         | <kbd>esc</kbd> or <kbd>ctrl-w</kbd> | <kbd>esc</kbd>              | Closes the script view window                                                 |
+| Script: Kill Process       | <kbd>ctrl-c</kbd>                   | <kbd>ctrl-q</kbd>           | Kills the current script process                                              |
 
 ## Development
 
