@@ -12,3 +12,6 @@ else
    echo "installed hm commands, have fun!"
    echo 'eval "$('$INSTALLER_DIR'/bin/hm init -)"' >> ~/.bash_profile
 fi
+
+echo ""
+$INSTALLER_DIR/_doctor.sh
