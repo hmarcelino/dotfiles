@@ -1,7 +1,7 @@
 {
   "name": "browser-plus",
   "main": "./lib/browser-plus",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "Browser Plus",
   "repository": {
     "type": "git",
@@ -32,10 +32,10 @@
     "url": "https://github.com/skandasoft/browser-plus/issues"
   },
   "homepage": "https://github.com/skandasoft/browser-plus",
-  "_id": "browser-plus@0.0.22",
-  "_shasum": "109169a905c1f92e5ad9027cc28f1d51e2f8a7f7",
-  "_resolved": "file:../d-115426-92872-3kr39l/package.tgz",
-  "_from": "../d-115426-92872-3kr39l/package.tgz",
+  "_id": "browser-plus@0.0.23",
+  "_shasum": "d64325c2ff8fa662a723df8463c3e89b095d766a",
+  "_resolved": "file:../d-11552-16854-1k73fl7/package.tgz",
+  "_from": "../d-11552-16854-1k73fl7/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
