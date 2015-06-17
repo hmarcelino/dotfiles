@@ -9,13 +9,12 @@
     fontSize: 12
     fontFamily: "Monaco"
     tabLength: 4
-    invisibles:
-      {}
+    invisibles: {}
+    softWrap: true
   core:
     themes: [
       "atom-light-ui"
       "atom-dark-syntax"
     ]
     useReactEditor: true
-  "run-command":
-    {}
+  "run-command": {}
