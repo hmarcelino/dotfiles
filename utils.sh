@@ -24,3 +24,15 @@ function createSymlink {
     echo -e "${GREEN}    $1 -> $INSTALLER_DIR/$2 ${NOCOLOR}"
     echo ""
 }
+
+function printSuccess {
+    GREEN="\033[32m"
+    NOCOLOR="\033[0m"
+    echo -e "${GREEN}$1${NOCOLOR}"
+}
+
+function printWarning {
+    YELLOW="\033[33m"
+    NOCOLOR="\033[0m"
+    echo -e "${YELLOW}$1${NOCOLOR}"
+}
