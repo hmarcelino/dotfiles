@@ -1,9 +1,10 @@
-node
-wget
-postgresql
-mysql
-git
 ansible
-hub
 caskroom/cask/brew-cask
+git
+hub
+mysql
+node
 openssl
+phantomjs
+postgresql
+wget

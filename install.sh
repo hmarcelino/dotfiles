@@ -12,4 +12,4 @@
 (cd confs && ./_install.sh)
 
 # Install hm commands
-# (cd hm && ./_install.sh)
+(cd hm && ./_install.sh)

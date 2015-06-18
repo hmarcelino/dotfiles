@@ -25,6 +25,12 @@ function createSymlink {
     echo ""
 }
 
+function printInfo {
+    INFO="\033[34m"
+    NOCOLOR="\033[0m"
+    echo -e "${INFO}$1${NOCOLOR}"
+}
+
 function printSuccess {
     GREEN="\033[32m"
     NOCOLOR="\033[0m"
@@ -35,4 +41,10 @@ function printWarning {
     YELLOW="\033[33m"
     NOCOLOR="\033[0m"
     echo -e "${YELLOW}$1${NOCOLOR}"
+}
+
+function printError {
+    RED="\033[31m"
+    NOCOLOR="\033[0m"
+    echo -e "${RED}$1${NOCOLOR}"
 }
