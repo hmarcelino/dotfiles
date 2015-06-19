@@ -28,8 +28,23 @@ echo ""
 echo "Installing Cask packages"
 while read pkg; do
     echo "Installing package $pkg"
-    brew cask install $pkg
+    brew cask install $pkg --appdir=/Applications
 done < cask-pkgs.txt
+brew cask cleanup
+echo ""
+
+if ! command -v "pip" | grep "$c" &>/dev/null; then
+    printWarning "No pip found Installing pip";
+    sudo easy_install pip
+else
+    printSuccess "pip is installed"
+fi
+
+echo "Installing Pip packages"
+while read pkg; do
+    echo "Installing package $pkg"
+    sudo pip install $pkg
+done < pip-pkgs.txt
 echo ""
 
 echo "======================================================="

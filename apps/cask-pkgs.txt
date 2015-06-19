@@ -11,6 +11,7 @@ google-drive
 google-hangouts
 intellij-idea
 iterm2
+java
 macvim
 microsoft-office
 mou
