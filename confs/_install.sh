@@ -2,6 +2,13 @@
 
 source ../utils.sh
 
+if [[ -d ~/projects ]]; then
+    printInfo "Creating projects directory"
+    mkdir ~/projects
+    mkdir ~/projects/myprojects
+    mkdir ~/projects/company
+fi
+
 echo "======================================================="
 echo "Creating links "
 echo "======================================================="
