@@ -8,7 +8,7 @@ echo "Installing applications"
 echo "======================================================="
 
 echo "Checking if Homebrew is installed"
-if ! command -v "brew" | grep "$c" &>/dev/null; then
+if ! command -v "brew" | grep "brew" &>/dev/null; then
     printError "Homebrew is not installed. Installing it ..."
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
@@ -39,7 +39,7 @@ done < cask-pkgs.txt
 brew cask cleanup
 echo ""
 
-if ! command -v "pip" | grep "$c" &>/dev/null; then
+if ! command -v "pip" | grep "pip" &>/dev/null; then
     printWarning "No pip found Installing pip";
     sudo easy_install pip
 else
