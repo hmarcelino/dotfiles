@@ -8,6 +8,7 @@ firefox
 gitx
 google-chrome
 google-drive
+google-hangouts
 intellij-idea
 iterm2
 macvim
@@ -17,6 +18,7 @@ ngrok
 nvalt
 plex-home-theater
 qlmarkdown
+quicklook-csv
 slack
 skype
 the-unarchiver
