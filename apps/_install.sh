@@ -13,6 +13,7 @@ if ! command -v "brew" | grep "$c" &>/dev/null; then
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
     printSuccess "Homebrew is installed"
+    printInfo "Updating and upgrading brew"
     brew update
     brew upgrade --all
 fi
@@ -27,8 +28,13 @@ echo ""
 
 echo "Installing Cask packages"
 while read pkg; do
-    echo "Installing package $pkg"
-    brew cask install $pkg --appdir=/Applications
+    if [[ ! -d /opt/homebrew-cask/Caskroom/$pkg ]]; then
+        echo "Installing package $pkg"
+        brew cask install $pkg --appdir=/Applications
+    else
+        printSuccess "$pkg is already installed";
+    fi
+
 done < cask-pkgs.txt
 brew cask cleanup
 echo ""
@@ -43,7 +49,7 @@ fi
 echo "Installing Pip packages"
 while read pkg; do
     echo "Installing package $pkg"
-    sudo pip install $pkg
+    sudo pip install $pkg --upgrade
 done < pip-pkgs.txt
 echo ""
 
