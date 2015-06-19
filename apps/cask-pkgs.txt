@@ -5,6 +5,7 @@ ccleaner
 dropbox
 evernote
 firefox
+flycut
 gitx
 google-chrome
 google-drive
@@ -12,6 +13,7 @@ google-hangouts
 intellij-idea
 iterm2
 java
+little-snitch
 macvim
 microsoft-office
 mou
