@@ -62,3 +62,6 @@ createSymlink "$HOME/.atom" "apps/atom"
 
 # Creating symbolic link for iterm2 configuration file
 createSymlink "$HOME/Library/Preferences/com.googlecode.iterm2.plist" "apps/com.googlecode.iterm2.plist"
+
+# Creating symbolic link for vim plugins
+createSymlink "$HOME/.vim" "apps/vim"
