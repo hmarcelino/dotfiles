@@ -25,6 +25,7 @@ quicklook-csv
 slack
 skype
 the-unarchiver
+things
 vmware-fusion
 visualvm
 vlc
