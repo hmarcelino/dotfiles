@@ -30,3 +30,4 @@ vmware-fusion
 visualvm
 vlc
 utorrent
+window-wrangler
