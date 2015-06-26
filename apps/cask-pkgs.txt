@@ -6,7 +6,7 @@ dropbox
 evernote
 firefox
 flycut
-gitx
+rowanj-gitx
 google-chrome
 google-drive
 google-hangouts
