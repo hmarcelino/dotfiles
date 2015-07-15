@@ -11,6 +11,7 @@
     tabLength: 4
     invisibles: {}
     softWrap: true
+    softTabs: false
   core:
     themes: [
       "atom-light-ui"

@@ -1,7 +1,7 @@
 {
   "name": "browser-plus",
   "main": "./lib/browser-plus",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "description": "Browser Plus",
   "repository": {
     "type": "git",
@@ -32,10 +32,10 @@
     "url": "https://github.com/skandasoft/browser-plus/issues"
   },
   "homepage": "https://github.com/skandasoft/browser-plus",
-  "_id": "browser-plus@0.0.23",
-  "_shasum": "d64325c2ff8fa662a723df8463c3e89b095d766a",
-  "_resolved": "file:../d-11552-16854-1k73fl7/package.tgz",
-  "_from": "../d-11552-16854-1k73fl7/package.tgz",
+  "_id": "browser-plus@0.0.24",
+  "_shasum": "748591a4f4b217bae170e6332114262b27632ac4",
+  "_resolved": "file:../d-115614-14096-1mv4ivm/package.tgz",
+  "_from": "../d-115614-14096-1mv4ivm/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
@@ -101,7 +101,7 @@
       },
       {
         "name": "amdefine",
-        "version": "0.1.0",
+        "version": "1.0.0",
         "path": "node_modules/atom-space-pen-views/node_modules/space-pen/node_modules/grim/node_modules/coffeestack/node_modules/source-map/node_modules/amdefine/amdefine.js"
       },
       {
