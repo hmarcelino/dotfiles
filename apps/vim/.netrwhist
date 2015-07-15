@@ -1,7 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/Users/hugomarcelino/projects/company/eknow/util/ekndev/share/linode'
-let g:netrw_dirhist_2='/Users/hugomarcelino/projects/company/enear/mb-app/src/main/resources/config/liquibase'
-let g:netrw_dirhist_3='/Users/hugomarcelino/.config'
-let g:netrw_dirhist_4='/Users/hugomarcelino/projects/company/enear/mountbet/pha-utils/share/aws'
-let g:netrw_dirhist_5='/Users/hugomarcelino/dotfiles/confs'
+let g:netrw_dirhist_cnt =0
