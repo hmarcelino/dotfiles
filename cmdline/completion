@@ -6,8 +6,8 @@ if [[ -f $HOME/dotfiles/hm/bin/hm ]]; then
     eval "$($HOME/dotfiles/hm/bin/hm init -)"
 fi
 
-if [[ -f $HOME/projects/company/enear/mountbet/pha-utils/bin/pha ]]; then
-    eval "$($HOME/projects/company/enear/mountbet/pha-utils/bin/pha init -)"
+if [[ -f $HOME/projects/company/enear/mgcandcom/mgc-utils/bin/mgc ]]; then
+    eval "$($HOME/projects/company/enear/mgcandcom/mgc-utils/bin/mgc init -)"
 fi
 
 if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
