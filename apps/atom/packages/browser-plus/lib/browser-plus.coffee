@@ -18,29 +18,47 @@ module.exports = BrowserPlus =
       title: 'HomePage'
       type: 'string'
       default: 'http://www.google.com'
-    preview:
-      title: 'Allow Preview'
+    live:
+      title: 'Live Refresh in '
+      type: 'number'
+      default: 500
+    node:
+      title: 'Node Integration '
+      type: 'boolean'
+      default: false
+    currentFile:
+      title: 'Show Current File'
       type: 'boolean'
       default: true
-      
+
   activate: (state) ->
+    if state.history and not state.favIcon
+      state.history = []
+      state.favIcon = {}
+      state.title = {}
+      state.fav = []
+
     @history = state.history or []
     @fav = state.fav or []
-    # resources = "#{atom.packages.getPackageDirPaths()[0]}/browser-plus/resources/"
+    @favIcon = state.favIcon or {}
+    @title = state.title or {}
     resources = "#{atom.packages.getLoadedPackage('browser-plus').path}/resources/"
     @js = fs.readFileSync "#{resources}browser-plus-client.js",'utf-8'
     @CSSjs = fs.readFileSync "#{resources}CSSUtilities.js",'utf-8'
     @JQueryjs = fs.readFileSync "#{resources}jquery-1.11.3.min.js",'utf-8'
-    # @JQueryjs = fs.readFileSync "#{resources}jquery-1.11.3.js",'utf-8'
     @Selectorjs = fs.readFileSync "#{resources}selector.js",'utf-8'
-
+    @clientJS = "#{resources}bp-client.js"
     atom.workspace.addOpener (uri,opt)=>
       path = require 'path'
       if ( path.extname(uri) is '.htmlp' or
           uri.indexOf('http:') is 0 or uri.indexOf('https:') is 0 or
           uri.indexOf('localhost') is 0 or uri.indexOf('file:') is 0 or
           uri.indexOf('browser-plus:') is 0 ) #or opt.src
-         uri = uri.replace('localhost','http://127.0.0.1')
+         localhostPattern = ///^
+                              (http://)?
+                              localhost
+                              ///i
+         uri = uri.replace(localhostPattern,'http://127.0.0.1')
          bp = new BrowserPlusModel @,uri,opt.src
          if uri.indexOf('browser-plus://history') is 0
            bp.on 'destroyed', =>
@@ -60,7 +78,14 @@ module.exports = BrowserPlus =
     @subscriptions.add atom.commands.add 'atom-workspace', 'browser-plus:open': => @open()
     @subscriptions.add atom.commands.add 'atom-workspace', 'browser-plus:history': => @hist()
 
-  open: (uri = atom.config.get('browser-plus.homepage'),split,src)->
+  open: (split,src)->
+
+    if atom.config.get('browser-plus.currentFile')
+      editor = atom.workspace.getActiveTextEditor()
+      uri = "file:///" + editor?.buffer.getUri()
+    unless uri
+      uri = atom.config.get('browser-plus.homepage')
+
     split = @getPosition()  unless split
     atom.workspace.open uri, {split:split,src:src}
 
@@ -86,3 +111,5 @@ module.exports = BrowserPlus =
   serialize: ->
     history : @history
     fav: @fav
+    favIcon: @favIcon
+    title: @title

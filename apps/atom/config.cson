@@ -19,3 +19,6 @@
     ]
     useReactEditor: true
   "run-command": {}
+  react: {}
+  "tree-view":
+    hideVcsIgnoredFiles: true

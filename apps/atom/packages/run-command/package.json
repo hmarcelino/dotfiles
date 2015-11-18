@@ -1,7 +1,7 @@
 {
   "name": "run-command",
   "main": "./lib/main",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Run any Unix command.",
   "keywords": [
     "command",
@@ -38,16 +38,16 @@
   },
   "readme": "# \"Run Command\" for Atom\n\nExecute any arbitrary command in [Atom](http://atom.io). Originally derived from Phil Nash's [Ruby Quick Test](https://github.com/philnash/ruby-quick-test).\n\n# Usage\n`ctrl-r` to open up this:\n\n!['Run Command' dialog](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/run-command.gif)\n\nEnter a command, `enter` to run it:\n\n![Running `rspec spec`](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/run.gif)\n\n`ctrl-r`, `enter`, and run it again:\n\n![Re-running `rspec spec`](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/re-run.gif)\n\nPut it all together, and you can do this:\n\n![I'm available for freelance work!](https://raw.githubusercontent.com/kylewlacy/run-command/master/screenshots/tdd.gif)\n\n(You can also toggle the command output with `cmd-ctrl-x`, or kill the last command with `cmd-ctrl-alt-x`)\n\n# TODO\n- [ ] Show/edit the working directory\n- [x] ~~ANSI color codes~~\n- [ ] Resizable output\n- [ ] Editor variables (`$ATOM_PROJECT` for the current project directory, etc.)\n",
   "readmeFilename": "README.md",
-  "_id": "run-command@0.3.0",
-  "_shasum": "5b6fbcd95044c94eddfa96928e6c4fd682b3a30d",
-  "_resolved": "file:../d-115614-14110-skcn8o/package.tgz",
-  "_from": "../d-115614-14110-skcn8o/package.tgz",
+  "_id": "run-command@0.3.1",
+  "_shasum": "eaa3c0d47e741986ff305286f785774954165778",
+  "_resolved": "file:../d-115713-62837-1kuurup/package.tgz",
+  "_from": "../d-115713-62837-1kuurup/package.tgz",
   "_atomModuleCache": {
     "version": 1,
     "dependencies": [
       {
         "name": "atom-space-pen-views",
-        "version": "2.0.5",
+        "version": "2.1.0",
         "path": "node_modules/atom-space-pen-views/lib/main.js"
       },
       {
@@ -167,7 +167,7 @@
       },
       {
         "name": "pty.js",
-        "version": "0.2.8",
+        "version": "0.2.13",
         "path": "node_modules/pty.js/index.js"
       },
       {
@@ -177,7 +177,7 @@
       },
       {
         "name": "nan",
-        "version": "1.8.4",
+        "version": "1.9.0",
         "path": "node_modules/pty.js/node_modules/nan/include_dirs.js"
       }
     ],
@@ -746,7 +746,29 @@
         "node_modules/pty.js/lib/pty.js",
         "node_modules/pty.js/lib/pty_win.js",
         "node_modules/pty.js/node_modules/extend/index.js",
-        "node_modules/pty.js/node_modules/nan/include_dirs.js"
+        "node_modules/pty.js/node_modules/nan/include_dirs.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/commander/index.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/commander/node_modules/graceful-readlink/index.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/common.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/glob.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inflight/inflight.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inflight/node_modules/wrappy/wrappy.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inflight/test.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inherits/inherits.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inherits/inherits_browser.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inherits/test.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/browser.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/minimatch.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/example.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/index.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/example.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/index.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/example/map.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/index.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/once/node_modules/wrappy/wrappy.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/once/once.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/path-is-absolute/index.js",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/sync.js"
       ],
       ".json": [
         "node_modules/atom-space-pen-views/node_modules/fuzzaldrin/package.json",
@@ -778,6 +800,19 @@
         "node_modules/atom-space-pen-views/package.json",
         "node_modules/pty.js/node_modules/extend/package.json",
         "node_modules/pty.js/node_modules/nan/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/commander/node_modules/graceful-readlink/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/commander/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inflight/node_modules/wrappy/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inflight/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/inherits/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/minimatch/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/once/node_modules/wrappy/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/once/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/node_modules/path-is-absolute/package.json",
+        "node_modules/pty.js/node_modules/nan/tools/node_modules/glob/package.json",
         "node_modules/pty.js/package.json",
         "package.json"
       ],
