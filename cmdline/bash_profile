@@ -16,4 +16,3 @@ export MANPATH=/opt/local/share/man:$MANPATH
 #export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
 source $INSTALLER_DIR/completion
-eval "$(/Users/hugomarcelino/dotfiles/hm/bin/hm init -)"
