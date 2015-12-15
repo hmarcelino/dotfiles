@@ -6,8 +6,12 @@ if [[ -f $HOME/dotfiles/hm/bin/hm ]]; then
     eval "$($HOME/dotfiles/hm/bin/hm init -)"
 fi
 
-if [[ -f $HOME/projects/company/enear/mgcandcom/mgc-utils/bin/mgc ]]; then
-    eval "$($HOME/projects/company/enear/mgcandcom/mgc-utils/bin/mgc init -)"
+if [[ -f $HOME/projects/company/enear/rituala/mgc-utils/bin/mgc ]]; then
+    eval "$($HOME/projects/company/enear/rituala/mgc-utils/bin/mgc init -)"
+fi
+
+if [[ -f $HOME/projects/company/enear/rituala/betfair/biab-utils/bin/biab ]]; then
+    eval "$($HOME/projects/company/enear/rituala/betfair/biab-utils/bin/biab init -)"
 fi
 
 if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
@@ -18,7 +22,7 @@ if [[ -f /usr/local/bin/aws_completer ]]; then
     complete -C '/usr/local/bin/aws_completer' aws
 fi
 
- LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
+LUNCHY_DIR=$(dirname `gem which lunchy`)/../extras
 if [ -f $LUNCHY_DIR/lunchy-completion.bash ]; then
   . $LUNCHY_DIR/lunchy-completion.bash
 fi
