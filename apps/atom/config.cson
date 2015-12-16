@@ -6,12 +6,12 @@
   metrics:
     userId: "afaa8e5c83efc50574392a1bdd85d00eebc9c0a4"
   editor:
-    fontSize: 12
     fontFamily: "Monaco"
     tabLength: 4
     invisibles: {}
     softWrap: true
     softTabs: false
+    fontSize: 12
   core:
     themes: [
       "atom-light-ui"
