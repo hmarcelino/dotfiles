@@ -8,7 +8,6 @@ export MAVEN_OPTS="-Dfile.encoding=utf-8 -Xmx512m -XX:MaxPermSize=256m "
 #export MAVEN_OPTS="-Dfile.encoding=utf-8 -Xmx512m -XX:MaxPermSize=256m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
 export GRADLE_HOME=~/projects/engines/gradle-2.2
-
 export BERKELEY_DB_HOME=/usr/local/db-6.1.19/
 
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
@@ -23,3 +22,5 @@ export NODE_PATH=/usr/local/share/npm/bin
 export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
 
 export PATH=$JAVA_HOME/bin:/usr/local/bin:$NODE_PATH:$PAX_RUNNER/bin:$ANT_HOME/bin:$M2_HOME/bin:$GRADLE_HOME/bin:$GROOVY_HOME/bin:$GANT_HOME/bin:$PATH
+
+export VAGRANT_HOME=~/projects/vagrant/vagrant.d

@@ -13,4 +13,4 @@ alias wd='cd ~/projects/company/cob/'
 alias go-prod="hm iterm -p production"
 alias go-dev="hm iterm -p development"
 
-alias http="python -m SimpleHTTPServer"
+alias http_serve="python -m SimpleHTTPServer"
