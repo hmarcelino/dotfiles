@@ -33,3 +33,5 @@ vlc
 utorrent
 window-wrangler
 grammarly
+spotify
+spotify-notifications
