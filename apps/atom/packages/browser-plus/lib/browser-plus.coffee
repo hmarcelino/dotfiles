@@ -1,6 +1,7 @@
 {CompositeDisposable} = require 'atom'
 BrowserPlusModel = require './browser-plus-model'
 BrowserPlusView = require './browser-plus-view'
+favList = require './fav-view'
 fs = require 'fs'
 module.exports = BrowserPlus =
   browserPlusView: null
@@ -30,9 +31,17 @@ module.exports = BrowserPlus =
       title: 'Show Current File'
       type: 'boolean'
       default: true
+    blockUri:
+      title: 'Block URIs keywords'
+      type: 'array'
+      default: ['youtube']
+    alert:
+      title: 'Alert message'
+      type: 'boolean'
+      default: true
 
   activate: (state) ->
-    if state.history and not state.favIcon
+    unless state.resetAgain
       state.history = []
       state.favIcon = {}
       state.title = {}
@@ -45,6 +54,7 @@ module.exports = BrowserPlus =
     resources = "#{atom.packages.getLoadedPackage('browser-plus').path}/resources/"
     @js = fs.readFileSync "#{resources}browser-plus-client.js",'utf-8'
     @CSSjs = fs.readFileSync "#{resources}CSSUtilities.js",'utf-8'
+    # @JQueryjs = fs.readFileSync "#{resources}jquery-2.1.4.min.js",'utf-8'
     @JQueryjs = fs.readFileSync "#{resources}jquery-1.11.3.min.js",'utf-8'
     @Selectorjs = fs.readFileSync "#{resources}selector.js",'utf-8'
     @clientJS = "#{resources}bp-client.js"
@@ -58,8 +68,9 @@ module.exports = BrowserPlus =
                               (http://)?
                               localhost
                               ///i
+         return false unless BrowserPlusModel.checkUrl(uri)
          uri = uri.replace(localhostPattern,'http://127.0.0.1')
-         bp = new BrowserPlusModel @,uri,opt.src
+         bp = new BrowserPlusModel {browserPlus:@,uri:uri,src:opt.src}
          if uri.indexOf('browser-plus://history') is 0
            bp.on 'destroyed', =>
              @histView = undefined
@@ -76,13 +87,19 @@ module.exports = BrowserPlus =
 
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'browser-plus:open': => @open()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'browser-plus:openCurrent': => @open(null,null,true)
     @subscriptions.add atom.commands.add 'atom-workspace', 'browser-plus:history': => @hist()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'browser-plus:fav': => @favr()
 
-  open: (split,src)->
+  favr: ->
+    new favList(@fav)
 
-    if atom.config.get('browser-plus.currentFile')
+  open: (split,src,current)->
+
+    if atom.config.get('browser-plus.currentFile') or current
       editor = atom.workspace.getActiveTextEditor()
-      uri = "file:///" + editor?.buffer.getUri()
+      if uri = editor?.buffer?.getUri()
+        uri = "file:///"+uri
     unless uri
       uri = atom.config.get('browser-plus.homepage')
 
@@ -113,3 +130,7 @@ module.exports = BrowserPlus =
     fav: @fav
     favIcon: @favIcon
     title: @title
+    resetAgain: true
+
+  provideService: ->
+    BrowserPlusModel

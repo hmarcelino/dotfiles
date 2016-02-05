@@ -4,7 +4,11 @@
 path = require 'path'
 module.exports =
   class HTMLEditor extends Model
-    constructor: (@browserPlus,@uri,@src)->
+    atom.deserializers.add(this)
+    constructor: (obj)->
+      @browserPlus = obj.browserPlus
+      @uri = obj.uri
+      @src = obj.src
       @disposable = new Disposable()
       @emitter = new Emitter
 
@@ -45,3 +49,27 @@ module.exports =
 
     updateIcon: ->
       @emit 'icon-changed'
+
+    serialize: ->
+      data:
+        browserPlus: @browserPlus
+        uri: @uri
+        src:  @src
+        iconName: @iconName
+        title: @title
+      deserializer: 'HTMLEditor'
+    @deserialize: ({data}) ->
+      new HTMLEditor(data)
+
+    @checkUrl: (url)->
+      for uri in atom.config.get('browser-plus.blockUri')
+        pattern = ///
+                    #{uri}
+                  ///i
+        if url.match(pattern) or ( @checkBlockUrl? and @checkBlockUrl(url) )
+          if atom.config.get('browser-plus.alert')
+            atom.notifications.addSuccess("#{url} Blocked~~Maintain Blocked URL in Browser-Plus Settings")
+          else
+            console.log "#{url} Blocked~~Maintain Blocked URL in Browser-Plus Settings"
+          return false
+        return true

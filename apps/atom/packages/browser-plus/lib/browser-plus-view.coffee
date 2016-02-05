@@ -2,6 +2,10 @@
 {View,$} = require 'atom-space-pen-views'
 loophole = require './eval'
 URL = require 'url'
+jQ = require '../node_modules/jquery/dist/jquery.js'
+require 'jquery-ui/autocomplete'
+BrowserPlusModel = require './browser-plus-model'
+_ = require 'lodash'
 # riot = require 'riot'
 # require 'riotgear'
 favList = require './fav-view'
@@ -10,12 +14,14 @@ class BrowserPlusView extends View
   constructor: (@model)->
     @subscriptions = new CompositeDisposable
     @model.view = @
+    @model.onDidDestroy =>
+      jQ(@uri).autocomplete('destroy')
     super
 
   @content: (params)->
-    srcdir = atom.packages.getActivePackage('browser-plus').path
+    srcdir = atom.packages.getPackageDirPaths('browser-plus')[0]+'/browser-plus'
     if (url  = params.uri).indexOf('browser-plus://history') >= 0
-      resources = "#{atom.packages.getActivePackage('browser-plus').path}/resources/"
+      resources = "#{srcdir}/resources/"
       url = "file://#{resources}history.html"
     if params.src
       src = params.src.replace(/"/g,'&quot;')
@@ -44,7 +50,7 @@ class BrowserPlusView extends View
             @span id:'devtool',class:'mega-octicon octicon-tools',outlet:'devtool'
 
           @div class:'input-uri', =>
-            @input class:"native-key-bindings",type:'text',id:'uri',outlet:'uri',value:"#{params.uri}" ##{@uri}"
+            @input class:"native-key-bindings", type:'text',id:'uri',outlet:'uri',value:"#{params.uri}" ##{@uri}"
             # @tag 'rg-select', autocomplete:"true", type:'text',options="{ countries }", class:"native-key-bindings",type:'text',id:'uri',outlet:'uri',value:"#{params.uri}" ##{@uri}"
       if atom.config.get('browser-plus.node')
         @tag 'webview',class:"native-key-bindings",outlet: 'htmlv',
@@ -55,17 +61,69 @@ class BrowserPlusView extends View
         plugins:'on',src:"#{url}", disablewebsecurity:'on', allowfileaccessfromfiles:'on', allowPointerLock:'on'
 
   initialize: ->
+      src = (req,res)=>
+        # check favorites
+        pattern = ///
+                    #{req.term}
+                  ///i
+        history = []
+        fav = _.filter @model.browserPlus.fav,(fav)->
+                      return fav.uri.match(pattern) or fav.title.match(pattern)
+        for histDate in @model.browserPlus.history
+          for key,hists of histDate
+            for hist in hists
+              title = @model.browserPlus.title[hist.uri]
+              history.push hist.uri if hist.uri.match(pattern) or title?.match(pattern)
+        uris = _.union _.pluck(fav,"uri"), history
+
+        res(uris)
+        # searchUrl = 'http://api.bing.com/osjson.aspx?JsonType=callback&JsonCallback=?'
+        searchUrl = 'http://api.bing.com/osjson.aspx'
+        # jQ.getJSON searchUrl,
+        #     query: req.term
+        #   ,(data)->
+        #     # jQ(@uri).removeClass('ui-autocomplete-loading')
+        #     debugger
+        #     search = "http://www.google.com/search?as_q="
+        #     for dat in data
+        #       uris.push { dat: search+dat}
+        #     res(uris)
+        do ->
+          jQ.ajax
+              url: searchUrl
+              dataType: 'json'
+              data: {query:req.term, 'web.count': 10}
+              success: (data)=>
+                # jQ(@uri).removeClass('ui-autocomplete-loading')
+                uris = uris[0..10]
+                search = "http://www.google.com/search?as_q="
+                for dat in data[1][0..10]
+                  uris.push
+                        label: dat
+                        value: search+dat
+                res(uris)
+
+      select = (event,ui)=>
+        @goToUrl(ui.item.value)
+
+      jQ(@uri).autocomplete
+          source: src
+          minLength: 2
+          select: select
       @subscriptions.add atom.tooltips.add @back, title: 'Back'
       @subscriptions.add atom.tooltips.add @forward, title: 'Forward'
       @subscriptions.add atom.tooltips.add @refresh, title: 'Refresh'
       @subscriptions.add atom.tooltips.add @select, title: 'Select'
-      @subscriptions.add atom.tooltips.add @history, title: 'View Hist/Fav-ctr+h'
+      @subscriptions.add atom.tooltips.add @history, title: 'View Hist/ctrl+h'
+      @subscriptions.add atom.tooltips.add @print, title: 'Print'
+      @subscriptions.add atom.tooltips.add @favList, title: 'View Favorites'
       @subscriptions.add atom.tooltips.add @fav, title: 'Favoritize'
       @subscriptions.add atom.tooltips.add @live, title: 'Live'
       @subscriptions.add atom.tooltips.add @devtool, title: 'Dev Tools-f12'
       @liveOn = false
       @subscriptions.add atom.tooltips.add @thumbs, title: 'Preview'
       @element.onkeydown = =>@showDevTool(arguments)
+      @checkFav() if @model.uri.indexOf('file:///') >= 0
       if @model.uri.indexOf('browser-plus://history') >= 0
         @hist = true
         @model.browserPlus.histView = @
@@ -73,14 +131,14 @@ class BrowserPlusView extends View
         Array.observe @model.browserPlus.fav, (ele)=>
           @checkFav()
 
-      @htmlv[0].addEventListener "permissionrequest", (e)->
+      @htmlv[0]?.addEventListener "permissionrequest", (e)->
         e.request.allow()
 
-      @htmlv[0].addEventListener "console-message", (e)=>
+      @htmlv[0]?.addEventListener "console-message", (e)=>
         if @model.uri is 'browser-plus://history'
           if e.message.includes('~browser-plus-hist-clear~')
             @model.browserPlus.history = []
-            @htmlv[0].executeJavaScript "riot.mount('hist',eval(#{data})); histTag = (riot.update())[0]"
+            @htmlv[0]?.executeJavaScript "riot.mount('hist',eval(#{data})); histTag = (riot.update())[0]"
 
           if e.message.includes('~browser-plus-hist-del-date~')
             delDate = e.message.replace('~browser-plus-hist-del-date~','')
@@ -113,18 +171,26 @@ class BrowserPlusView extends View
                     title: @model.browserPlus.title
                     favIcon: @model.browserPlus.favIcon
             data = JSON.stringify(data)
-            @htmlv[0].executeJavaScript "riot.mount('hist',eval(#{data})); histTag = (riot.update())[0]"
+            @htmlv[0]?.executeJavaScript "riot.mount('hist',eval(#{data})); histTag = (riot.update())[0]"
           else
             data = e.message.replace('~browser-plus-href~','')
             indx = data.indexOf(' ')
             uri = data.substr(0,indx)
             title = data.substr(indx + 1)
-            if uri
+            unless BrowserPlusModel.checkUrl(uri)
+              uri = atom.config.get('browser-plus.homepage') or "http://www.google.com"
+              atom.notifications.addSuccess("Redirecting to #{uri}")
+              @htmlv[0]?.executeJavaScript "location.href = '#{uri}'"
+              return
+            if uri and uri isnt @model.uri
               @uri.val uri
               @model.uri = uri
             if title
               @model.browserPlus.title[@model.uri] = title
-              @model.setTitle(title)
+              @model.setTitle(title) if title isnt @model.getTitle()
+            else
+              @model.browserPlus.title[@model.uri] = uri
+              @model.setTitle(uri)
 
             @select.removeClass 'active'
             @deActivateSelection()
@@ -142,7 +208,7 @@ class BrowserPlusView extends View
                   ,100      #
 
 
-      @htmlv[0].addEventListener "page-favicon-updated", (e)=>
+      @htmlv[0]?.addEventListener "page-favicon-updated", (e)=>
         @model.browserPlus.favIcon[@model.uri] = icon = e.favicons[0]
         @model.iconName = Math.floor(Math.random()*10000)
         @model.updateIcon()
@@ -160,12 +226,13 @@ class BrowserPlusView extends View
         document.getElementsByTagName('head')[0].appendChild(style)
         @liveHistory()
 
-      @htmlv[0].addEventListener "page-title-set", (e)=>
+      @htmlv[0]?.addEventListener "page-title-set", (e)=>
         @model.browserPlus.title[@model.uri] = e.title
         @liveHistory()
         @model.setTitle(e.title)
+        #@htmlv?[0]?.executeJavaScript? 'console.log("~browser-plus-href~"+location.href + " "+document.title);'
 
-      @htmlv[0].addEventListener "ipc-message", (evt)=>
+      @htmlv[0]?.addEventListener "ipc-message", (evt)=>
         switch evt.channel
 
           when 'selection'
@@ -177,10 +244,10 @@ class BrowserPlusView extends View
         @toggleDevTool()
 
       @print.on 'click', (evt)=>
-        @htmlv[0].print()
+        @htmlv[0]?.print()
 
       # @pdf.on 'click', (evt)=>
-      #   @htmlv[0].printToPDF {}, (data,err)->
+      #   @htmlv[0]?.printToPDF {}, (data,err)->
 
       @live.on 'click', (evt)=>
         return if @model.uri is 'browser-plus://history'
@@ -188,7 +255,7 @@ class BrowserPlusView extends View
         @liveOn = !@liveOn
         @live.toggleClass('active',@liveOn)
         if @liveOn
-          @htmlv[0].executeJavaScript "location.href = '#{@model.uri}'"
+          @htmlv[0]?.executeJavaScript "location.href = '#{@model.uri}'"
           @liveSubscription = new CompositeDisposable
           @liveSubscription.add atom.workspace.observeTextEditors (editor)=>
                     @liveSubscription.add editor.onDidSave =>
@@ -241,7 +308,7 @@ class BrowserPlusView extends View
 
       @fav.on 'click',(evt)=>
         return if @model.src
-        return if @htmlv[0].getUrl().includes('data:text/html,')
+        return if @htmlv[0]?.getUrl().includes('data:text/html,')
         return if @model.uri.includes 'browser-plus:'
         favs = @model.browserPlus.fav
         if @fav.hasClass('active')
@@ -249,7 +316,7 @@ class BrowserPlusView extends View
         else
           data = {
             uri: @model.uri
-            title: @model.browserPlus.title[@model.uri]
+            title: @model.browserPlus.title[@model.uri] or @model.uri
             favIcon: @model.browserPlus.favIcon[@model.uri]
           }
           favs.push data
@@ -258,28 +325,28 @@ class BrowserPlusView extends View
         @fav.toggleClass 'active'
         @model.browserPlus.histView?.htmlv[0].send('updFav',@model.browserPlus.fav)
 
-      @htmlv[0].addEventListener 'new-window', (e)->
+      @htmlv[0]?.addEventListener 'new-window', (e)->
         #require('shell').openExternal(e.url)
         atom.workspace.open e.url, {split: 'left',searchAllPanes:true}
       #
       # #
-      @htmlv[0].addEventListener "did-start-loading", =>
-        @htmlv[0].shadowRoot.firstChild.style.height = '95%'
+      @htmlv[0]?.addEventListener "did-start-loading", =>
+        @htmlv[0]?.shadowRoot.firstChild.style.height = '95%'
 
       @history.on 'click',(evt)=>
         atom.workspace.open 'browser-plus://history' , {split: 'left',searchAllPanes:true}
       #
       #
       @back.on 'click', (evt)=>
-        if @htmlv[0].canGoBack() and $(` this`).hasClass('active')
-          @htmlv[0].goBack()
+        if @htmlv[0]?.canGoBack() and $(` this`).hasClass('active')
+          @htmlv[0]?.goBack()
 
       @favList.on 'click', (evt)=>
         new favList(@model.browserPlus.fav)
 
       @forward.on 'click', (evt)=>
-        if @htmlv[0].canGoForward() and $(` this`).hasClass('active')
-          @htmlv[0].goForward()
+        if @htmlv[0]?.canGoForward() and $(` this`).hasClass('active')
+          @htmlv[0]?.goForward()
 
       @uri.on 'keypress',(evt)=>
         if evt.which is 13
@@ -305,27 +372,32 @@ class BrowserPlusView extends View
               else
                 urls.protocol = 'http'
                 url = URL.format(urls)
-          @select.removeClass 'active'
-          @deActivateSelection()
-          @liveOn = false
-          @live.toggleClass 'active',@liveOn
-          @liveSubscription?.dispose() unless @liveOn
-          @uri.val url
-          @model.uri = url
-          @htmlv.attr 'src',url
+          @goToUrl(url)
 
       @refresh.on 'click', (evt)=>
         return if @model.uri is 'browser-plus://history'
-        @htmlv[0].executeJavaScript "location.href = '#{@model.uri}'"
+        @htmlv[0]?.executeJavaScript "location.href = '#{@model.uri}'"
+
+  goToUrl: (url)->
+      return unless BrowserPlusModel.checkUrl(url)
+      jQ(@uri).autocomplete("close")
+      @select.removeClass 'active'
+      @deActivateSelection()
+      @liveOn = false
+      @live.toggleClass 'active',@liveOn
+      @liveSubscription?.dispose() unless @liveOn
+      @uri.val url
+      @model.uri = url
+      @htmlv.attr 'src',url
 
   showDevTool: (evt)->
     @toggleDevTool() if evt[0].keyIdentifier is "F12"
 
   deActivateSelection: =>
     if @select.hasClass('active')
-      @htmlv[0].send 'select'
+      @htmlv[0]?.send 'select'
     else
-      @htmlv[0].send 'deselect'
+      @htmlv[0]?.send 'deselect'
 
   removeFav: (favorite)->
     for favr,idx in @model.browserPlus.fav
@@ -333,7 +405,7 @@ class BrowserPlusView extends View
         return @model.browserPlus.fav.splice idx,1
 
   setSrc: (text)->
-    @htmlv[0].src = "data:text/html,#{text}"
+    @htmlv[0]?.src = "data:text/html,#{text}"
 
   checkFav: ->
     @fav.removeClass 'active'
@@ -342,20 +414,20 @@ class BrowserPlusView extends View
         @fav.addClass 'active'
 
   toggleDevTool: ->
-    open = @htmlv[0].isDevToolsOpened()
+    open = @htmlv[0]?.isDevToolsOpened()
     if open
-      @htmlv[0].closeDevTools()
+      @htmlv[0]?.closeDevTools()
     else
-      @htmlv[0].openDevTools()
+      @htmlv[0]?.openDevTools()
 
     $(@devtool).toggleClass 'active', !open
 
 
 
   checkNav: ->
-      $(@forward).toggleClass 'active',@htmlv[0].canGoForward()
-      $(@back).toggleClass 'active',@htmlv[0].canGoBack()
-      if @htmlv[0].canGoForward()
+      $(@forward).toggleClass 'active',@htmlv[0]?.canGoForward()
+      $(@back).toggleClass 'active',@htmlv[0]?.canGoBack()
+      if @htmlv[0]?.canGoForward()
         if @clearForward
           $(@forward).toggleClass 'active',false
           @clearForward = false
@@ -363,7 +435,7 @@ class BrowserPlusView extends View
           $(@forward).toggleClass 'active',true
 
   addHistory: ->
-    url = @htmlv[0].getUrl()
+    url = @htmlv[0]?.getUrl()
     return if url.includes('browser-plus://') or url.includes('data:text/html,')
     yyyymmdd = ->
       date = new Date()
@@ -398,6 +470,9 @@ class BrowserPlusView extends View
       @model.browserPlus.histView?.htmlv[0].executeJavaScript " histTag.opts.hist = eval(#{histJSON}); histTag.opts.title = eval(#{titleJSON});histTag.opts.favIcon = eval(#{favIconJSON});histTag.update();"
     , 2000
 
-  # destroy: ->
+  serialize: ->
+
+  destroy: ->
     # @element.remove()
+    jQ(@uri).autocomplete('destroy')
     #

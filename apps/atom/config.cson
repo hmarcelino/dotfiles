@@ -1,24 +1,24 @@
 "*":
-  "exception-reporting":
-    userId: "9683cfc6-b4c7-5ea9-af70-002528b8f8da"
-  welcome:
-    showOnStartup: false
-  metrics:
-    userId: "afaa8e5c83efc50574392a1bdd85d00eebc9c0a4"
-  editor:
-    fontFamily: "Monaco"
-    tabLength: 4
-    invisibles: {}
-    softWrap: true
-    softTabs: false
-    fontSize: 12
   core:
     themes: [
       "atom-light-ui"
       "atom-dark-syntax"
     ]
     useReactEditor: true
-  "run-command": {}
+  editor:
+    fontFamily: "Monaco"
+    fontSize: 12
+    invisibles: {}
+    softTabs: false
+    softWrap: true
+    tabLength: 4
+  "exception-reporting":
+    userId: "9683cfc6-b4c7-5ea9-af70-002528b8f8da"
+  metrics:
+    userId: "afaa8e5c83efc50574392a1bdd85d00eebc9c0a4"
   react: {}
+  "run-command": {}
   "tree-view":
     hideVcsIgnoredFiles: true
+  welcome:
+    showOnStartup: false
