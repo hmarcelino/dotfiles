@@ -24,6 +24,7 @@
     mt = mergetool                    # fire up the merge tool
 
     pa = add --patch
+    ua = reset HEAD .                 # unstage all
     ci = commit
     ammend = commit --amend
     undo = reset --soft HEAD~1        # undo the last commit
