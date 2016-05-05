@@ -9,3 +9,4 @@ phantomjs
 postgresql
 wget
 jq
+golang --cross-compile-common

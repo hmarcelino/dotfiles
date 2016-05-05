@@ -14,3 +14,5 @@ alias go-prod="hm iterm -p production"
 alias go-dev="hm iterm -p development"
 
 alias http_serve="python -m SimpleHTTPServer"
+
+alias imvn="mvn -s /Users/hugomarcelino/projects/company/enear/inspire/confs/maven-settings.xml "
