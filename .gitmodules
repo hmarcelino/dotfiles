@@ -1,0 +1,3 @@
+[submodule "dev-utils"]
+	path = dev-utils
+	url = git@github.com:hmarcelino/dev-utils.git

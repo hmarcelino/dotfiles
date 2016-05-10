@@ -10,7 +10,7 @@ export MAVEN_OPTS="-Dfile.encoding=utf-8 -Xmx512m -XX:MaxPermSize=256m "
 export GRADLE_HOME=~/projects/engines/gradle-2.2
 export BERKELEY_DB_HOME=/usr/local/db-6.1.19/
 
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export JAVA_OPTS="-Dfile.encoding=utf-8 -Xmx1024m -XX:MaxPermSize=512m -Dcom.sun.management.jmxremote"
 
 export GROOVY_HOME=~/projects/groovy

@@ -2,8 +2,8 @@ if [[ -f $HOME/projects/company/CoB/utils/cob/bin/cob ]]; then
     eval "$($HOME/projects/company/CoB/utils/cob/bin/cob init -)"
 fi
 
-if [[ -f $HOME/dotfiles/hm/bin/hm ]]; then
-    eval "$($HOME/dotfiles/hm/bin/hm init -)"
+if [[ -f $HOME/dotfiles/dev-utils/bin/dev ]]; then
+    eval "$($HOME/dotfiles/dev-utils/bin/dev init -)"
 fi
 
 if [[ -f $HOME/projects/company/enear/rituala/mgc-utils/bin/mgc ]]; then
