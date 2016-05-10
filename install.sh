@@ -12,4 +12,7 @@
 (cd confs && ./_install.sh)
 
 # Install hm commands
-(cd hm && ./_install.sh)
+# (cd hm && ./_install.sh)
+
+# Install dev commands
+cd dev-utils && ./install.sh
