@@ -14,5 +14,8 @@
 # Install hm commands
 # (cd hm && ./_install.sh)
 
+git submodule init dev-utils
+git submodule update dev-utils
+
 # Install dev commands
 cd dev-utils && ./install.sh
