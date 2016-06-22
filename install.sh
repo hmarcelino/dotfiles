@@ -18,4 +18,5 @@ git submodule init dev-utils
 git submodule update dev-utils
 
 # Install dev commands
+git submodule init
 cd dev-utils && ./install.sh

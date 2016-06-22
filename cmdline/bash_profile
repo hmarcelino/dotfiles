@@ -16,3 +16,5 @@ export MANPATH=/opt/local/share/man:$MANPATH
 #export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
 source $INSTALLER_DIR/completion
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
