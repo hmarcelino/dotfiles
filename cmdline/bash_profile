@@ -1,7 +1,5 @@
 INSTALLER_DIR="$HOME/dotfiles/cmdline";
 
-ulimit -n 65536 65536
-
 export HISTCONTROL=erasedups
 export HISTSIZE=10000
 shopt -s histappend
