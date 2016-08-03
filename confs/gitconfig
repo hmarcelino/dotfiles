@@ -37,6 +37,7 @@
 	st = status
     sts = status --short
     br = branch
+    bro = rev-parse --abbrev-ref HEAD
     lb = branch -a
     df = diff
     dfc= diff --cached                # diff staged changes
