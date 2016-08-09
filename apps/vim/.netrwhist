@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos-old/corehub-ui-api'
 let g:netrw_dirhist_2='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos-old/corehub-parent'
 let g:netrw_dirhist_3='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos-old'
@@ -8,3 +8,4 @@ let g:netrw_dirhist_5='/Users/hugomarcelino/projects/company/enear/inspire/core-
 let g:netrw_dirhist_6='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos/modules/aaa-core'
 let g:netrw_dirhist_7='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/virgo-3.6.4/serviceability/logs'
 let g:netrw_dirhist_8='/Users/hugomarcelino/projects/myprojects/vaadin-tests/autocomplete/vaadin-autocompletetextfield-demo/src'
+let g:netrw_dirhist_9='/Users/hugomarcelino/projects/myprojects/vaadin-sandbox/client-side-sample/.git'
