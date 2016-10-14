@@ -2,6 +2,7 @@
 # As well as any special setup for arguments.
 
 _ = require 'underscore'
+path = require 'path'
 GrammarUtils = require '../lib/grammar-utils'
 
 module.exports =
@@ -9,6 +10,11 @@ module.exports =
     'File Based':
       command: "oscript"
       args: (context) -> ['-encoding=utf-8', context.filepath]
+
+  Ansible:
+    "File Based":
+      command: "ansible-playbook"
+      args: (context) -> [context.filepath]
 
   AppleScript:
     'Selection Based':
@@ -18,6 +24,30 @@ module.exports =
       command: 'osascript'
       args: (context) -> [context.filepath]
 
+  AutoHotKey:
+    "File Based":
+      command: "AutoHotKey"
+      args: (context) -> [context.filepath]
+    "Selection Based":
+      command: "AutoHotKey"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code)
+        [tmpFile]
+
+  'Babel ES6 JavaScript':
+    "Selection Based":
+      command: "babel-node"
+      args: (context) -> ['-e', context.getCode()]
+    "File Based":
+      command: "babel-node"
+      args: (context) -> [context.filepath]
+
+  Batch:
+    "File Based":
+      command: "cmd.exe"
+      args: (context) -> ['/q', '/c', context.filepath]
+
   'Behat Feature':
     "File Based":
       command: "behat"
@@ -26,30 +56,101 @@ module.exports =
       command: "behat"
       args: (context) -> [context.fileColonLine()]
 
-  Batch:
+  BuckleScript:
+    "Selection Based":
+      command: "bsc"
+      args: (context) ->
+        code = context.getCode()
+        tmpFile = GrammarUtils.createTempFileWithCode(code)
+        ['-c', tmpFile]
     "File Based":
-      command: ""
-      args: (context) -> [context.filepath]
+      command: "bsc"
+      args: (context) -> ['-c', context.filepath]
+
   C:
-    if GrammarUtils.OperatingSystem.isDarwin()
-      "File Based":
-        command: "bash"
-        args: (context) -> ['-c', "xcrun clang -fcolor-diagnostics -Wall -include stdio.h '" + context.filepath + "' -o /tmp/c.out && /tmp/c.out"]
-    else if GrammarUtils.OperatingSystem.isLinux()
-      "File Based":
-        command: "bash"
-        args: (context) -> ["-c", "cc -Wall -include stdio.h '" + context.filepath + "' -o /tmp/c.out && /tmp/c.out"]
+    "File Based":
+      command: "bash"
+      args: (context) ->
+        args = []
+        if GrammarUtils.OperatingSystem.isDarwin()
+          args = ['-c', "xcrun clang -fcolor-diagnostics -Wall -include stdio.h '" + context.filepath + "' -o /tmp/c.out && /tmp/c.out"]
+        else if GrammarUtils.OperatingSystem.isLinux()
+          args = ["-c", "cc -Wall -include stdio.h '" + context.filepath + "' -o /tmp/c.out && /tmp/c.out"]
+        return args
+    "Selection Based":
+      command: "bash"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".c")
+        args = []
+        if GrammarUtils.OperatingSystem.isDarwin()
+          args = ['-c', "xcrun clang -fcolor-diagnostics -Wall -include stdio.h '" + tmpFile + "' -o /tmp/c.out && /tmp/c.out"]
+        else if GrammarUtils.OperatingSystem.isLinux()
+          args = ["-c", "cc -Wall -include stdio.h '" + tmpFile + "' -o /tmp/c.out && /tmp/c.out"]
+        return args
+
+  'C#':
+    "File Based":
+      command: if GrammarUtils.OperatingSystem.isWindows() then "cmd" else "bash"
+      args: (context) ->
+        progname = context.filename.replace /\.cs$/, ""
+        args = []
+        if GrammarUtils.OperatingSystem.isWindows()
+          args = ["/c csc #{context.filepath} && #{progname}.exe"]
+        else
+          args = ['-c', "csc #{context.filepath} && mono #{progname}.exe"]
+        return args
+    "Selection Based":
+      command: if GrammarUtils.OperatingSystem.isWindows() then "cmd" else "bash"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".cs")
+        progname = tmpFile.replace /\.cs$/, ""
+        args = []
+        if GrammarUtils.OperatingSystem.isWindows()
+          args = ["/c csc /out:#{progname}.exe #{tmpFile} && #{progname}.exe"]
+        else
+          args = ['-c', "csc /out:#{progname}.exe #{tmpFile} && mono #{progname}.exe"]
+        return args
+
+  'C# Script File':
+    "File Based":
+      command: "scriptcs"
+      args: (context) -> ['-script', context.filepath]
+    "Selection Based":
+      command: "scriptcs"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".csx")
+        ['-script', tmpFile]
 
   'C++':
     if GrammarUtils.OperatingSystem.isDarwin()
       "File Based":
         command: "bash"
         args: (context) -> ['-c', "xcrun clang++ -fcolor-diagnostics -Wc++11-extensions -Wall -include stdio.h -include iostream '" + context.filepath + "' -o /tmp/cpp.out && /tmp/cpp.out"]
+    else if GrammarUtils.OperatingSystem.isLinux()
+      "Selection Based":
+        command: "bash"
+        args: (context) ->
+          code = context.getCode(true)
+          tmpFile = GrammarUtils.createTempFileWithCode(code, ".cpp")
+          ["-c", "g++ -Wall -include stdio.h -include iostream '" + tmpFile + "' -o /tmp/cpp.out && /tmp/cpp.out"]
+      "File Based":
+        command: "bash"
+        args: (context) -> ["-c", "g++ -Wall -include stdio.h -include iostream '" + context.filepath + "' -o /tmp/cpp.out && /tmp/cpp.out"]
+    else if GrammarUtils.OperatingSystem.isWindows() and GrammarUtils.OperatingSystem.release().split(".").slice -1 >= '14399'
+      "File Based":
+        command: "bash"
+        args: (context) -> ["-c", "g++ -Wall -include stdio.h -include iostream '/mnt/" + path.posix.join.apply(path.posix, [].concat([context.filepath.split(path.win32.sep)[0].toLowerCase()], context.filepath.split(path.win32.sep).slice(1))).replace(":", "") + "' -o /tmp/cpp.out && /tmp/cpp.out"]
 
-  'C# Script File':
+  Clojure:
+    "Selection Based":
+      command: "lein"
+      args: (context)  -> ['exec', '-e', context.getCode()]
     "File Based":
-      command: "scriptcs"
-      args: (context) -> ['-script', context.filepath]
+      command: "lein"
+      args: (context) -> ['exec', context.filepath]
 
   CoffeeScript:
     "Selection Based":
@@ -59,12 +160,12 @@ module.exports =
       command: "coffee"
       args: (context) -> [context.filepath]
 
-  'CoffeeScript (Literate)':
-    "Selection Based":
-      command: "coffee"
+  "CoffeeScript (Literate)":
+    'Selection Based':
+      command: 'coffee'
       args: (context) -> GrammarUtils.CScompiler.args.concat [context.getCode()]
-    "File Based":
-      command: "coffee"
+    'File Based':
+      command: 'coffee'
       args: (context) -> [context.filepath]
 
   Crystal:
@@ -76,11 +177,44 @@ module.exports =
       args: (context) -> [context.filepath]
 
   D:
+    "Selection Based":
+      command: "rdmd"
+      args: (context)  ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.D.createTempFileWithCode(code)
+        [tmpFile]
     "File Based":
       command: "rdmd"
       args: (context) -> [context.filepath]
 
+  Dart:
+    "Selection Based":
+      command: "dart"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".dart")
+        [tmpFile]
+    "File Based":
+      command: "dart"
+      args: (context) -> [context.filepath]
+
+  "Graphviz (DOT)":
+    "Selection Based":
+      command: "dot"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".dot")
+        ['-Tpng', tmpFile, '-o', tmpFile + '.png']
+    "File Based":
+      command: "dot"
+      args: (context) -> ['-Tpng', context.filepath, '-o', context.filepath + '.png']
   DOT:
+    "Selection Based":
+      command: "dot"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".dot")
+        ['-Tpng', tmpFile, '-o', tmpFile + '.png']
     "File Based":
       command: "dot"
       args: (context) -> ['-Tpng', context.filepath, '-o', context.filepath + '.png']
@@ -103,10 +237,35 @@ module.exports =
       command: if GrammarUtils.OperatingSystem.isWindows() then "fsi" else "fsharpi"
       args: (context) -> ['--exec', context.filepath]
 
+  'F*':
+    "File Based":
+      command: "fstar"
+      args: (context) -> ['--fsi', context.filepath]
+
   Forth:
     "File Based":
       command: "gforth"
       args: (context) -> [context.filepath]
+
+  "Fortran - Fixed Form":
+    "File Based":
+      command: "bash"
+      args: (context) -> ['-c', "gfortran '" + context.filepath + "' -ffixed-form -o /tmp/f.out && /tmp/f.out"]
+
+  "Fortran - Free Form":
+    "File Based":
+      command: "bash"
+      args: (context) -> ['-c', "gfortran '" + context.filepath + "' -ffree-form -o /tmp/f90.out && /tmp/f90.out"]
+
+  "Fortran - Modern":
+    "File Based":
+      command: "bash"
+      args: (context) -> ['-c', "gfortran '" + context.filepath + "' -ffree-form -o /tmp/f90.out && /tmp/f90.out"]
+
+  "Fortran - Punchcard":
+    "File Based":
+      command: "bash"
+      args: (context) -> ['-c', "gfortran '" + context.filepath + "' -ffixed-form -o /tmp/f.out && /tmp/f.out"]
 
   Gherkin:
     "File Based":
@@ -116,10 +275,19 @@ module.exports =
       command: "cucumber"
       args: (context) -> ['--color', context.fileColonLine()]
 
+  gnuplot:
+    "File Based":
+      command: "gnuplot"
+      args: (context) -> ['-p', context.filepath]
+      workingDirectory: atom.workspace.getActivePaneItem()?.buffer?.file?.getParent?().getPath?()
+
   Go:
     "File Based":
       command: "go"
-      args: (context) -> ['run', context.filepath]
+      args: (context) ->
+        if context.filepath.match(/_test.go/) then ['test', '' ]
+        else ['run', context.filepath]
+      workingDirectory: atom.workspace.getActivePaneItem()?.buffer?.file?.getParent?().getPath?()
 
   Groovy:
     "Selection Based":
@@ -137,6 +305,17 @@ module.exports =
       command: "ghc"
       args: (context)  -> ['-e', context.getCode()]
 
+  Hy:
+    "File Based":
+      command: "hy"
+      args: (context) -> [context.filepath]
+    "Selection Based":
+      command: "hy"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code, ".hy")
+        [tmpFile]
+
   IcedCoffeeScript:
     "Selection Based":
       command: "iced"
@@ -145,6 +324,19 @@ module.exports =
       command: "iced"
       args: (context) -> [context.filepath]
 
+  InnoSetup:
+    "File Based":
+      command: "ISCC.exe"
+      args: (context) -> ['/Q', context.filepath]
+
+  ioLanguage:
+    "Selection Based":
+      command: "io"
+      args: (context) -> [context.getCode()]
+    "File Based":
+      command: "io"
+      args: (context) -> ['-e', context.filepath]
+
   Java:
     "File Based":
       command: if GrammarUtils.OperatingSystem.isWindows() then "cmd" else "bash"
@@ -152,7 +344,7 @@ module.exports =
         className = context.filename.replace /\.java$/, ""
         args = []
         if GrammarUtils.OperatingSystem.isWindows()
-          args = ["/c javac -Xlint #{context.filename} && start cmd /k java #{className}"]
+          args = ["/c javac -Xlint #{context.filename} && java #{className}"]
         else
           args = ['-c', "javac -d /tmp '#{context.filepath}' && java -cp /tmp #{className}"]
         return args
@@ -165,14 +357,6 @@ module.exports =
       command: "node"
       args: (context) -> [context.filepath]
 
-  'Babel ES6 JavaScript':
-    "Selection Based":
-      command: "babel-node"
-      args: (context) -> ['-e', context.getCode()]
-    "File Based":
-      command: "babel-node"
-      args: (context) -> [context.filepath]
-
   "JavaScript for Automation (JXA)":
     "Selection Based":
       command: "osascript"
@@ -180,6 +364,11 @@ module.exports =
     "File Based":
       command: "osascript"
       args: (context) -> ['-l', 'JavaScript', context.filepath]
+
+  Jolie:
+    "File Based":
+      command: "jolie"
+      args: (context) -> [context.filepath]
 
   Julia:
     "Selection Based":
@@ -206,6 +395,11 @@ module.exports =
         return args
 
   LaTeX:
+    "File Based":
+      command: "latexmk"
+      args: (context) -> ['-cd', '-quiet', '-pdf', '-pv', '-shell-escape', context.filepath]
+
+  'LaTeX Beamer':
     "File Based":
       command: "latexmk"
       args: (context) -> ['-cd', '-quiet', '-pdf', '-pv', '-shell-escape', context.filepath]
@@ -250,6 +444,25 @@ module.exports =
       command: "lua"
       args: (context) -> [context.filepath]
 
+  'Lua (WoW)':
+    "Selection Based":
+      command: "lua"
+      args: (context) ->
+        code = context.getCode(true)
+        tmpFile = GrammarUtils.createTempFileWithCode(code)
+        [tmpFile]
+    "File Based":
+      command: "lua"
+      args: (context) -> [context.filepath]
+
+  Makefile:
+    "Selection Based":
+      command: "bash"
+      args: (context) -> ['-c', context.getCode()]
+    "File Based":
+      command: "make"
+      args: (context) -> ['-f', context.filepath]
+
   MagicPython:
     "Selection Based":
       command: "python"
@@ -257,6 +470,22 @@ module.exports =
     "File Based":
       command: "python"
       args: (context) -> ['-u', context.filepath]
+
+  MATLAB:
+    "Selection Based":
+      command: "matlab"
+      args: (context) ->
+        code = context.getCode()
+        tmpFile = GrammarUtils.MATLAB.createTempFileWithCode(code)
+        ['-nodesktop','-nosplash','-r',"try, run('" + tmpFile + "');while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]
+    "File Based":
+      command: "matlab"
+      args: (context) -> ['-nodesktop','-nosplash','-r',"try run('" + context.filepath + "');while ~isempty(get(0,'Children')); pause(0.5); end; catch ME; disp(ME.message); exit(1); end; exit(0);"]
+
+  'MIPS Assembler':
+    "File Based":
+      command: "spim"
+      args: (context) -> [context.filepath]
 
   MoonScript:
     "Selection Based":
@@ -296,6 +525,14 @@ module.exports =
       command: "newlisp"
       args: (context) -> [context.filepath]
 
+  Nim:
+    "File Based":
+      command: "bash"
+      args: (context) ->
+        file = GrammarUtils.Nim.findNimProjectFile(context.filepath)
+        path = GrammarUtils.Nim.projectDir(context.filepath)
+        ['-c', 'cd "' + path + '" && nim c --hints:off --parallelBuild:1 -r "' + file + '" 2>&1']
+
   NSIS:
     "Selection Based":
       command: "makensis"
@@ -319,31 +556,42 @@ module.exports =
         command: "bash"
         args: (context) -> ['-c', "xcrun clang++ -fcolor-diagnostics -Wc++11-extensions -Wall -include stdio.h -include iostream -framework Cocoa " + context.filepath + " -o /tmp/objc-cpp.out && /tmp/objc-cpp.out"]
 
-  ocaml:
+  OCaml:
     "File Based":
       command: "ocaml"
       args: (context) -> [context.filepath]
+
+  Octave:
+    "Selection Based":
+      command: "octave"
+      args: (context) -> ['-p', context.filepath.replace(/[^\/]*$/, ''), '--eval', context.getCode()]
+    "File Based":
+      command: "octave"
+      args: (context) -> ['-p', context.filepath.replace(/[^\/]*$/, ''), context.filepath]
+
+  Oz:
+    "Selection Based":
+      command: "ozc"
+      args: (context) ->
+        code = context.getCode()
+        tmpFile = GrammarUtils.createTempFileWithCode(code)
+        ['-c', tmpFile]
+    "File Based":
+      command: "ozc"
+      args: (context) -> ['-c', context.filepath]
 
   'Pandoc Markdown':
     "File Based":
       command: "panzer"
       args: (context) -> [context.filepath, "--output=" + context.filepath + ".pdf"]
 
-  PHP:
-    "Selection Based":
-      command: "php"
-      args: (context) ->
-        code = context.getCode()
-        file = GrammarUtils.PHP.createTempFileWithCode(code)
-        [file]
-    "File Based":
-      command: "php"
-      args: (context) -> [context.filepath]
-
   Perl:
     "Selection Based":
       command: "perl"
-      args: (context)  -> ['-e', context.getCode()]
+      args: (context) ->
+        code = context.getCode()
+        file = GrammarUtils.Perl.createTempFileWithCode(code)
+        [file]
     "File Based":
       command: "perl"
       args: (context) -> [context.filepath]
@@ -364,10 +612,39 @@ module.exports =
       command: "perl6"
       args: (context) -> [context.filepath]
 
+  PHP:
+    "Selection Based":
+      command: "php"
+      args: (context) ->
+        code = context.getCode()
+        file = GrammarUtils.PHP.createTempFileWithCode(code)
+        [file]
+    "File Based":
+      command: "php"
+      args: (context) -> [context.filepath]
+
   PowerShell:
+    "Selection Based":
+      command: "powershell"
+      args: (context) -> [context.getCode()]
     "File Based":
       command: "powershell"
       args: (context) -> [context.filepath.replace /\ /g, "` "]
+
+  Processing:
+    "File Based":
+      command: if GrammarUtils.OperatingSystem.isWindows() then "cmd" else "bash"
+      args: (context) ->
+        if GrammarUtils.OperatingSystem.isWindows()
+          return ['/c processing-java --sketch='+context.filepath.replace("\\"+context.filename,"")+' --run']
+        else
+          return ['-c', 'processing-java --sketch='+context.filepath.replace("/"+context.filename,"")+' --run']
+
+
+  Prolog:
+    "File Based":
+      command: "bash"
+      args: (context) -> ['-c', 'cd \"' + context.filepath.replace(/[^\/]*$/, '') + '\"; swipl -f \"' + context.filepath + '\" -t main --quiet']
 
   Python:
     "Selection Based":
@@ -407,6 +684,18 @@ module.exports =
       command: "RantConsole.exe"
       args: (context) -> ['-file', context.filepath]
 
+  Reason:
+    "File Based":
+      command: if GrammarUtils.OperatingSystem.isWindows() then "cmd" else "bash"
+      args: (context) ->
+        progname = context.filename.replace /\.re$/, ""
+        args = []
+        if GrammarUtils.OperatingSystem.isWindows()
+          args = ["/c rebuild #{progname}.native && #{progname}.native"]
+        else
+          args = ['-c', "rebuild '#{progname}.native' && '#{progname}.native'"]
+        return args
+
   RSpec:
     "Selection Based":
       command: "ruby"
@@ -436,16 +725,15 @@ module.exports =
 
   Rust:
     "File Based":
-      command: "bash"
-      args: (context) -> ['-c', "rustc '#{context.filepath}' -o /tmp/rs.out && /tmp/rs.out"]
-
-  Makefile:
-    "Selection Based":
-      command: "bash"
-      args: (context) -> ['-c', context.getCode()]
-    "File Based":
-      command: "make"
-      args: (context) -> ['-f', context.filepath]
+      command: if GrammarUtils.OperatingSystem.isWindows() then "cmd" else "bash"
+      args: (context) ->
+        progname = context.filename.replace /\.rs$/, ""
+        args = []
+        if GrammarUtils.OperatingSystem.isWindows()
+          args = ["/c rustc #{context.filepath} && #{progname}.exe"]
+        else
+          args = ['-c', "rustc '#{context.filepath}' -o /tmp/rs.out && /tmp/rs.out"]
+        return args
 
   Sage:
     "Selection Based":
@@ -510,17 +798,28 @@ module.exports =
       command: "sml"
       args: (context) -> [context.filepath]
 
-  Nim:
+  Stata:
+    "Selection Based":
+      command: "stata"
+      args: (context)  -> ['do', context.getCode()]
     "File Based":
-      command: "bash"
-      args: (context) ->
-        file = GrammarUtils.Nim.findNimProjectFile(context.filepath)
-        path = GrammarUtils.Nim.projectDir(context.filepath)
-        ['-c', 'cd "' + path + '" && nim c --hints:off --parallelBuild:1 -r "' + file + '" 2>&1']
+      command: "stata"
+      args: (context) -> ['do', context.filepath]
 
   Swift:
     "File Based":
       command: "swift"
+      args: (context) -> [context.filepath]
+
+  Tcl:
+    "Selection Based":
+      command: "tclsh"
+      args: (context) ->
+        code = context.getCode()
+        tmpFile = GrammarUtils.createTempFileWithCode(code)
+        [tmpFile]
+    "File Based":
+      command: "tclsh"
       args: (context) -> [context.filepath]
 
   TypeScript:
@@ -530,21 +829,8 @@ module.exports =
         code = context.getCode(true)
         tmpFile = GrammarUtils.createTempFileWithCode(code, ".ts")
         jsFile = tmpFile.replace /\.ts$/, ".js"
-        args = ['-c', "tsc --out '#{jsFile}' '#{tmpFile}' && node '#{jsFile}'"]
+        args = ['-c', "tsc --outFile '#{jsFile}' '#{tmpFile}' && node '#{jsFile}'"]
         return args
     "File Based":
       command: "bash"
-      args: (context) -> ['-c', "tsc '#{context.filepath}' --out /tmp/js.out && node /tmp/js.out"]
-
-  Dart:
-    "File Based":
-      command: "dart"
-      args: (context) -> [context.filepath]
-
-  Octave:
-    "Selection Based":
-      command: "octave"
-      args: (context) -> ['-p', context.filepath.replace(/[^\/]*$/, ''), '--eval', context.getCode()]
-    "File Based":
-      command: "octave"
-      args: (context) -> ['-p', context.filepath.replace(/[^\/]*$/, ''), context.filepath]
+      args: (context) -> ['-c', "tsc '#{context.filepath}' --outFile /tmp/js.out && node /tmp/js.out"]

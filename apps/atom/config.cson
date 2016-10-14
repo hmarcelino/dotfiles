@@ -1,5 +1,6 @@
 "*":
   core:
+    telemetryConsent: "no"
     themes: [
       "atom-light-ui"
       "atom-dark-syntax"

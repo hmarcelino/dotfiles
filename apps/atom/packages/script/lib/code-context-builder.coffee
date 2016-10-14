@@ -31,7 +31,7 @@ class CodeContextBuilder
       editor.save()
     else if codeContext.selection.isEmpty() and codeContext.filepath?
       codeContext.argType = 'File Based'
-      editor.save()
+      editor.save() if editor?.isModified()
 
     # Selection and Line Number Based runs both benefit from knowing the current line
     # number
@@ -45,10 +45,12 @@ class CodeContextBuilder
     filename = editor.getTitle()
     filepath = editor.getPath()
     selection = editor.getLastSelection()
+    ignoreSelection = atom.config.get 'script.ignoreSelection'
 
-    # If the selection was empty "select" ALL the text
+    # If the selection was empty or if ignore selection is on, then "select" ALL
+    # of the text
     # This allows us to run on new files
-    if selection.isEmpty()
+    if selection.isEmpty() || ignoreSelection
       textSource = editor
     else
       textSource = selection
@@ -65,6 +67,7 @@ class CodeContextBuilder
     return codeContext
 
   getShebang: (editor) ->
+    return unless process.platform isnt 'win32'
     text = editor.getText()
     lines = text.split("\n")
     firstLine = lines[0]
@@ -77,7 +80,7 @@ class CodeContextBuilder
 
   validateLang: (lang) ->
     valid = true
-    
+
     # Determine if no language is selected.
     if lang is 'Null Grammar' or lang is 'Plain Text'
       @emitter.emit 'did-not-specify-language'

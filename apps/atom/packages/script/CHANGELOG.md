@@ -1,3 +1,111 @@
+## 3.10.1
+
+* Fix `tsc` run
+
+## 3.10.0
+
+* Support for `BuckleScript`
+* Support for `F*`
+* Support for `Hy`
+* Support for `MIPS`
+* Support for `Oz`
+* Ignore first line check in scripts on Windows
+* Fix the `{FILE_ACTIVE_NAME_BASE}}` doesn't work
+* Fix run `tsc` on non amd or system module types
+
+## 3.9.0
+
+* Support "Selection Based" run for `C#`
+* Support "Selection Based" run for `C# Script`
+* Support "Selection Based" run for `C`
+* Support "Selection Based" run for `C++`
+* Support "Selection Based" run for `D`
+* Support "Selection Based" run for `Dart`
+* Support "Selection Based" run for `DOT (Graphviz)`
+* Support "Selection Based" run for `Powershell`
+* Fix `MATLAB` plot support
+* Fix #973 (`args.split is not a function`)
+
+## 3.8.3
+
+* Support for Processing
+
+## 3.8.2
+
+* Support for Lua (WoW)
+
+## 3.8.1
+
+* Fix compilation errors
+
+## 3.8.0
+
+* Support for C/C++ on Windows (only latest win10 builds with `bash` and `g++` installed)
+* Support for Fortran
+* Support for `Inno Setup`
+* Support for Tcl
+* Use `cmd.exe` for `Batch` files
+* Change `stata` intrepreter to `stata`
+
+## 3.7.3
+
+* Support for Stata
+* Support for MATLAB
+
+## 3.7.2
+
+* Support Rust on Windows
+
+## 3.7.1
+
+* Support for Ansible playbooks
+
+## 3.7.0
+
+* Adapt script for tests in go
+* Support Jolie language
+* Keep Java runner within same console on Windows
+* Option to ignore selection runs
+* Fix C++ not running on Linux
+* Fix OCaml support
+
+## 3.6.3
+
+* Fix bug prevents the package from disabling and updating
+
+## 3.6.2
+
+* Fix running of atom://config files
+
+## 3.6.1
+
+* Fix bug prevents the package from loading
+
+## 3.6.0
+
+* Support ioLanguage
+* Ability to set working directory
+* File based prolog command runs swipl from file directory
+* Templated args support
+
+## 3.5.2
+
+* Support `LaTeX Beamer`
+
+## 3.5.1
+
+* Temporarily remove a `Cake[file]` support cause of bugs
+
+## 3.5.0
+
+* Visual updates to the options view
+* Support prolog
+* Support `Cake[file]`
+* Improved selection based support for Perl
+* Small bug fixes all over
+* We promise to lint and have some sanity around :coffee:script
+* New profiles mode!
+
 ## 3.0.2
 
 * Fix when stdin is coming on in (still doesn't accept it, but it also doesn't act wild)
