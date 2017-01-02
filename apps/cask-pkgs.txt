@@ -36,3 +36,5 @@ grammarly
 spotify
 spotify-notifications
 daisydisk
+postbox
+docker
