@@ -26,7 +26,7 @@ It has the following structure:
    	 | - gitconfig
    	 | - vimrc
 
-   + hm: hm command line. More info in https://github.com/hmarcelino/sub
+   + dev-utils: dev utils command line. More info in https://github.com/hmarcelino/sub
 
 ```
 
