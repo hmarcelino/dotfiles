@@ -38,3 +38,4 @@ spotify-notifications
 daisydisk
 postbox
 docker
+spectacle

@@ -71,3 +71,6 @@ createSymlink "$HOME/Library/Preferences/com.googlecode.iterm2.plist" "apps/com.
 
 # Creating symbolic link for vim plugins
 createSymlink "$HOME/.vim" "apps/vim"
+
+# Creating symbolic link Spectacle preferences
+createSymlink "$HOME/Library/Application\ Support/Spectacle" "apps/spectacle"
