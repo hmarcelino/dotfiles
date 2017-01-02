@@ -15,24 +15,28 @@ else
     printSuccess "Homebrew is installed"
     printInfo "Updating and upgrading brew"
     brew update
-    brew upgrade --all
+    brew upgrade
 fi
 echo ""
 
 echo "Installing Homebrew packages"
 while read pkg; do
-    echo "Installing package $pkg"
-    brew install $pkg
+    if [[ ! $pkg = \#* ]]; then
+        echo "Installing package $pkg"
+        brew install $pkg
+    fi
 done < brew-pkgs.txt
 echo ""
 
 echo "Installing Cask packages"
 while read pkg; do
-    if [[ ! -d /opt/homebrew-cask/Caskroom/$pkg ]]; then
-        echo "Installing package $pkg"
-        brew cask install $pkg --appdir=/Applications
-    else
-        printSuccess "$pkg is already installed";
+    if [[ ! $pkg = \#* ]]; then
+        if [[ ! -d /opt/homebrew-cask/Caskroom/$pkg ]]; then
+           echo "Installing package $pkg"
+           brew cask install $pkg --appdir=/Applications 
+       else
+           printSuccess "$pkg is already installed";
+       fi
     fi
 
 done < cask-pkgs.txt
@@ -48,8 +52,10 @@ fi
 
 echo "Installing Pip packages"
 while read pkg; do
-    echo "Installing package $pkg"
-    sudo pip install $pkg --upgrade
+    if [[ ! $pkg = \#* ]]; then
+        echo "Installing package $pkg"
+        sudo pip install $pkg --upgrade
+    fi
 done < pip-pkgs.txt
 echo ""
 

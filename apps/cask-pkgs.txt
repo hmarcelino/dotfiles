@@ -1,7 +1,7 @@
 1password
 appcleaner
 atom
-ccleaner
+# ccleaner
 dropbox
 evernote
 firefox
@@ -11,13 +11,13 @@ google-chrome
 google-drive
 google-hangouts
 intellij-idea
-rubymine
+# rubymine
 iterm2
 java
 little-snitch
 macvim
-microsoft-office
-mou
+# microsoft-office
+# mou
 ngrok
 nvalt
 plex-home-theater
@@ -27,11 +27,12 @@ slack
 skype
 the-unarchiver
 things
-vmware-fusion
+# vmware-fusion
 visualvm
 vlc
-utorrent
+# utorrent
 window-wrangler
 grammarly
 spotify
 spotify-notifications
+daisydisk
