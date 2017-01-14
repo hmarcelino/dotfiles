@@ -83,3 +83,5 @@
 	token = !security find-internet-password -a hmarcelino -s github.com -l 'ghi token' -w
 [interactive]
 	# diffFilter = diff-highlight
+[rebase]
+	autostash = true

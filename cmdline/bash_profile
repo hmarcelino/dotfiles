@@ -16,3 +16,4 @@ export MANPATH=/opt/local/share/man:$MANPATH
 source $INSTALLER_DIR/completion
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+source $(brew --prefix autoenv)/activate.sh

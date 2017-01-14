@@ -10,3 +10,4 @@ postgresql
 wget
 jq
 golang --cross-compile-common
+autoenv

@@ -39,3 +39,5 @@ daisydisk
 postbox
 docker
 spectacle
+java7
+java6

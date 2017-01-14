@@ -28,6 +28,8 @@ while read pkg; do
 done < brew-pkgs.txt
 echo ""
 
+brew tap caskroom/versions
+
 echo "Installing Cask packages"
 while read pkg; do
     if [[ ! $pkg = \#* ]]; then
