@@ -7,6 +7,17 @@ echo "======================================================="
 echo "Installing applications"
 echo "======================================================="
 
+echo "Installing SdkMan"
+if ! command -v "sdk" | grep "sdk" &>/dev/null; then
+    printError "SdkMan is not installed. Installing it..."
+    curl -s get.sdkman.io | bash
+
+else
+    printSuccess "SdkMan is already installed"
+fi
+echo ""
+
+
 echo "Checking if Homebrew is installed"
 if ! command -v "brew" | grep "brew" &>/dev/null; then
     printError "Homebrew is not installed. Installing it ..."
