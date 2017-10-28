@@ -9,35 +9,37 @@ export default class ScriptOptionsView extends View {
 
   static content() {
     this.div({ class: 'options-view' }, () => {
-      this.div({ class: 'panel-heading' }, 'Configure Run Options');
-      this.table(() => {
-        this.tr(() => {
-          this.td({ class: 'first' }, () => this.label('Current Working Directory:'));
-          this.td({ class: 'second' }, () => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputCwd' }));
-        });
-        this.tr(() => {
-          this.td(() => this.label('Command'));
-          this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputCommand' }));
-        });
-        this.tr(() => {
-          this.td(() => this.label('Command Arguments:'));
-          this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputCommandArgs' }));
-        });
-        this.tr(() => {
-          this.td(() => this.label('Program Arguments:'));
-          this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputScriptArgs' }));
-        });
-        this.tr(() => {
-          this.td(() => this.label('Environment Variables:'));
-          this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputEnv' }));
+      this.h4({ class: 'modal-header' }, 'Configure Run Options');
+      this.div({ class: 'modal-body' }, () => {
+        this.table(() => {
+          this.tr(() => {
+            this.td({ class: 'first' }, () => this.label('Current Working Directory:'));
+            this.td({ class: 'second' }, () => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputCwd' }));
+          });
+          this.tr(() => {
+            this.td(() => this.label('Command'));
+            this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputCommand' }));
+          });
+          this.tr(() => {
+            this.td(() => this.label('Command Arguments:'));
+            this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputCommandArgs' }));
+          });
+          this.tr(() => {
+            this.td(() => this.label('Program Arguments:'));
+            this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputScriptArgs' }));
+          });
+          this.tr(() => {
+            this.td(() => this.label('Environment Variables:'));
+            this.td(() => this.tag('atom-text-editor', { mini: '', class: 'editor mini', outlet: 'inputEnv' }));
+          });
         });
       });
-      this.div({ class: 'block buttons' }, () => {
+      this.div({ class: 'modal-footer' }, () => {
         const css = 'btn inline-block-tight';
         this.button({ class: `btn ${css} cancel`, outlet: 'buttonCancel', click: 'close' }, () =>
           this.span({ class: 'icon icon-x' }, 'Cancel'),
         );
-        this.span({ class: 'right-buttons' }, () => {
+        this.span({ class: 'pull-right' }, () => {
           this.button({ class: `btn ${css} save-profile`, outlet: 'buttonSaveProfile', click: 'saveProfile' }, () =>
             this.span({ class: 'icon icon-file-text' }, 'Save as profile'),
           );
@@ -85,55 +87,39 @@ export default class ScriptOptionsView extends View {
     this.panel.hide();
   }
 
-  splitArgs(element) {
-    let args = element.get(0).getModel().getText().trim();
-
-    if (args.indexOf('"') === -1 && args.indexOf("'") === -1) {
-      // no escaping, just split
-      return (args.split(' ').filter(item => item !== '').map(item => item));
-    }
-
-    const replaces = {};
-
-    const regexps = [/"[^"]*"/ig, /'[^']*'/ig];
-
-    let matches;
-    // find strings in arguments
-    regexps.forEach((regex) => {
-      matches = (!matches ? matches : []).concat((args.match(regex)) || []);
-    });
-
-    // format replacement as bash comment to avoid replacing valid input
-    matches.forEach((match) => {
-      replaces[`\`#match${Object.keys(replaces).length + 1}\``] = match;
-    });
-
-    // replace strings
-    for (const match in replaces) {
-      const part = replaces[match];
-      args = args.replace(new RegExp(part, 'g'), match);
-    }
-    const split = (args.split(' ').filter(item => item !== '').map(item => item));
-
-    const replacer = (argument) => {
-      for (const match in replaces) {
-        const replacement = replaces[match];
-        argument = argument.replace(match, replacement);
+  static splitArgs(argText) {
+    const text = argText.trim();
+    const argSubstringRegex = /([^'"\s]+)|((["'])(.*?)\3)/g;
+    const args = [];
+    let lastMatchEndPosition = -1;
+    let match = argSubstringRegex.exec(text);
+    while (match !== null) {
+      const matchWithoutQuotes = match[1] || match[4];
+      // Combine current result with last match, if last match ended where this
+      // one begins.
+      if (lastMatchEndPosition === match.index) {
+        args[args.length - 1] += matchWithoutQuotes;
+      } else {
+        args.push(matchWithoutQuotes);
       }
-      return argument;
-    };
 
-    // restore strings, strip quotes
-    return split.map(argument => replacer(argument).replace(/"|'/g, ''));
+      lastMatchEndPosition = argSubstringRegex.lastIndex;
+      match = argSubstringRegex.exec(text);
+    }
+    return args;
   }
 
   getOptions() {
     return {
       workingDirectory: this.inputCwd.get(0).getModel().getText(),
       cmd: this.inputCommand.get(0).getModel().getText(),
-      cmdArgs: this.splitArgs(this.inputCommandArgs),
+      cmdArgs: this.constructor.splitArgs(
+        this.inputCommandArgs.get(0).getModel().getText(),
+      ),
       env: this.inputEnv.get(0).getModel().getText(),
-      scriptArgs: this.splitArgs(this.inputScriptArgs),
+      scriptArgs: this.constructor.splitArgs(
+        this.inputScriptArgs.get(0).getModel().getText(),
+      ),
     };
   }
 
@@ -194,10 +180,10 @@ export default class ScriptOptionsView extends View {
   run() {
     this.saveOptions();
     this.hide();
-    atom.commands.dispatch(this.workspaceView(), 'script:run');
+    atom.commands.dispatch(this.getWorkspaceView(), 'script:run');
   }
 
-  workspaceView() {
-    atom.views.getView(atom.workspace);
+  getWorkspaceView() {
+    return atom.views.getView(atom.workspace);
   }
 }

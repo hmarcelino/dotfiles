@@ -1,3 +1,23 @@
+## 3.15.0
+
+* Improved documentation
+* JSX now handled by node
+* C++ Grammar supports C++14 now too
+* Selection based support for C++ on macOS
+* added selection based code execution for C++ & C++14 in macOS
+* :new: support for Idris, Fable, Bats, Lisp, Turing
+* improved Java support
+
+## 3.14.1
+
+* Fix exception occuring during closing of output panel
+
+## 3.14.0
+
+* Support for `PureScript`
+* Support for `Robot Framework`
+* Fix exception in options view
+
 ## 3.13.0
 
 * Support for `HTML`
