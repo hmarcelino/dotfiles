@@ -46,7 +46,7 @@ while read pkg; do
     if [[ ! $pkg = \#* ]]; then
         if [[ ! -d /opt/homebrew-cask/Caskroom/$pkg ]]; then
            echo "Installing package $pkg"
-           brew cask install $pkg --appdir=/Applications 
+           brew cask install $pkg --appdir=/Applications
        else
            printSuccess "$pkg is already installed";
        fi
@@ -62,6 +62,10 @@ if ! command -v "pip" | grep "pip" &>/dev/null; then
 else
     printSuccess "pip is installed"
 fi
+
+git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts \
+    && /tmp/powerline-fonts/install.sh \
+    && rm -f /tmp/fonts
 
 echo "Installing Pip packages"
 while read pkg; do

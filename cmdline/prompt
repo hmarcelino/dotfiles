@@ -1,11 +1,19 @@
 export CLICOLOR=1
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
-source /usr/local/etc/bash_completion.d/git-prompt.sh
+# source /usr/local/etc/bash_completion.d/git-prompt.sh
+#
+# export GIT_PS1_SHOWDIRTYSTATE=true
+# export GIT_PS1_SHOWCOLORHINTS=true
+# export GIT_PS1_SHOWSTASHSTATE=true
+# export GIT_PS1_SHOWUPSTREAM=auto
+#
+# #export PROMPT_COMMAND='__git_ps1 "\[\033[1;33m\]\h @ \W\[\033[0m\]" " \\\$ "'
 
-export GIT_PS1_SHOWDIRTYSTATE=true
-export GIT_PS1_SHOWCOLORHINTS=true
-export GIT_PS1_SHOWSTASHSTATE=true
-export GIT_PS1_SHOWUPSTREAM=auto
+function _update_ps1() {
+    PS1="$(powerline-shell $?)"
+}
 
-export PROMPT_COMMAND='__git_ps1 "\[\033[1;33m\]\h @ \W\[\033[0m\]" " \\\$ "'
+if [ "$TERM" != "linux" ]; then
+    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+fi

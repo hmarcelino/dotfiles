@@ -11,9 +11,6 @@
 # Configure other applications
 (cd confs && ./_install.sh)
 
-# Install hm commands
-# (cd hm && ./_install.sh)
-
 git submodule init dev-utils
 git submodule update dev-utils
 
