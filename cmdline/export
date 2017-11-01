@@ -7,7 +7,7 @@ export ANT_HOME=~/projects/engines/apache-ant-1.7.1
 # export MAVEN_OPTS="-Dfile.encoding=utf-8 -Xmx512m -XX:MaxPermSize=256m "
 # xport MAVEN_OPTS="-Dfile.encoding=utf-8 -Xmx1G -XX:MaxPermSize=256m -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 
-export HOMEBREW_CASK_OPTS="--caskroom=/opt/homebrew-cask/Caskroom"
+# export HOMEBREW_CASK_OPTS="--caskroom=/opt/homebrew-cask/Caskroom"
 # export GRADLE_HOME=~/projects/engines/gradle-2.2
 export BERKELEY_DB_HOME=/usr/local/db-6.1.19/
 

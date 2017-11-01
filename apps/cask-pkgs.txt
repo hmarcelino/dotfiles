@@ -1,43 +1,45 @@
 1password
 appcleaner
 atom
-# ccleaner
 dropbox
 evernote
 firefox
 flycut
 rowanj-gitx
 google-chrome
-google-drive
+google-backup-and-sync
 google-hangouts
 intellij-idea
-# rubymine
 iterm2
-java
-little-snitch
-macvim
-# microsoft-office
-# mou
 ngrok
 nvalt
-plex-home-theater
 qlmarkdown
 quicklook-csv
 slack
 skype
 the-unarchiver
-things
-# vmware-fusion
 visualvm
 vlc
-# utorrent
-window-wrangler
 grammarly
 spotify
-spotify-notifications
 daisydisk
 postbox
 docker
 spectacle
-java7
 java6
+java8
+java
+
+# rubymine
+# little-snitch
+# macvim
+# microsoft-office
+# plex-home-theater
+# mou
+# vmware-fusion
+# spotify-notifications
+# utorrent
+# window-wrangler
+# ccleaner
+# java7
+# things
