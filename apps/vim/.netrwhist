@@ -1,10 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos/devops/vagrant/scripts'
-let g:netrw_dirhist_2='/Users/hugomarcelino/projects/myprojects/workshops/Docker/logs'
-let g:netrw_dirhist_3='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos/devops/vagrant-sc'
-let g:netrw_dirhist_4='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos/devops'
-let g:netrw_dirhist_5='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos/devops/vagrant-sc'
-let g:netrw_dirhist_6='/Users/hugomarcelino/projects/company/enear/inspire/core-hub/git-repos/devops'
-let g:netrw_dirhist_7='/Users/hugomarcelino/dotfiles/apps'
-let g:netrw_dirhist_8='/Users/hugomarcelino/dotfiles/dev-utils'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/hugomarcelino/dotfiles'
+let g:netrw_dirhist_2='/Users/hugomarcelino/dotfiles/apps'
+let g:netrw_dirhist_3='/Users/hugomarcelino/dotfiles/apps/powerline'
