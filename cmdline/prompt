@@ -13,5 +13,5 @@ export LSCOLORS=gxfxcxdxbxegedabagacad
 #####################################
 # Powerline bash setup
 #####################################"
-export POWERLINE_PATH=~/Library/Python/2.7/lib/python/site-packages/powerline" >>
+export POWERLINE_PATH=~/Library/Python/2.7/lib/python/site-packages/powerline
 source $POWERLINE_PATH/bindings/bash/powerline.sh

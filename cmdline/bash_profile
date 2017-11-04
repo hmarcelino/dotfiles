@@ -4,16 +4,15 @@ export HISTCONTROL=erasedups
 export HISTSIZE=10000
 shopt -s histappend
 
-source $INSTALLER_DIR/prompt
 source $INSTALLER_DIR/export
 source $INSTALLER_DIR/aliases
-
+ 
 export PATH=/opt/local/bin:/opt/local/sbin:/usr/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
-
-#export MAVEN_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
-
+ 
 source $INSTALLER_DIR/completion
-
+ 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 source $(brew --prefix autoenv)/activate.sh
+
+source $INSTALLER_DIR/prompt
