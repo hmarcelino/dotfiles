@@ -14,3 +14,7 @@ createSymlink "$HOME/.gitignore" "confs/gitignore"
 
 # Creating symbolic link for vim configuration file
 createSymlink "$HOME/.vimrc" "confs/vimrc"
+
+# Creating symbolic link for powerline config files
+mkdir -p "$HOME/.config/powerline"
+createSymlink "$HOME/.config/powerline" "powerline"

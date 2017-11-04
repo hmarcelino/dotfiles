@@ -1,5 +1,8 @@
 set nocompatible 
 
+filetype plugin on
+filetype indent on
+
 syntax enable
 
 set number                      "Line numbers are good
@@ -79,7 +82,7 @@ map <c-t> <ESC>:NERDTreeToggle<CR>
 " => other stuff
 " """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-call pathogen#infect()
+" call pathogen#infect()
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -87,5 +90,21 @@ autocmd BufReadPost *
      \   exe "normal! g`\"" |
      \ endif
 
-filetype plugin on
-filetype indent on
+
+set rtp+=$HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim/
+set laststatus=2
+set guifont=Meslo\ LG\ S\ for\ Powerline
+let g:Powerline_symbols = 'fancy'
+set encoding=utf-8
+set t_Co=256
+set fillchars+=stl:\ ,stlnc:\
+set term=xterm-256color
+set termencoding=utf-8
+
+if has("gui_running")
+   let s:uname = system("uname")
+   if s:uname == "Darwin\n"
+      set guifont=Meslo\ LG\ S\ for\ Powerline
+   endif
+endif
+
