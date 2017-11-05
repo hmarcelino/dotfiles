@@ -17,12 +17,7 @@
 			"theme": "default"
 		},
 		"shell": {
-			"colorscheme": "default",
-			"theme": "default_leftonly",
-			"local_themes": {
-				"continuation": "continuation",
-				"select": "select"
-			}
+			"colorscheme": "default"
 		},
 		"tmux": {
 			"colorscheme": "default",
