@@ -14,8 +14,8 @@ if [[ -f $HOME/projects/company/enear/rituala/mgc-utils/bin/mgc ]]; then
     eval "$($HOME/projects/company/enear/rituala/mgc-utils/bin/mgc init -)"
 fi
 
-if [[ -f $HOME/projects/company/equalexperts/plusgrade/utils/bin/pg ]]; then
-    eval "$($HOME/projects/company/equalexperts/plusgrade/utils/bin/pg init -)"
+if [[ -f $HOME/projects/company/equalexperts/plusgrade/ops-admin-scripts/bin/pg ]]; then
+    eval "$($HOME/projects/company/equalexperts/plusgrade/ops-admin-scripts/bin/pg init -)"
 fi
 
 if [ -f /usr/local/etc/bash_completion.d/git-completion.bash ]; then
