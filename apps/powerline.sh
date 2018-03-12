@@ -9,12 +9,12 @@ source ../utils.sh
 # Install powerline
 ####################
 
-pip install --user git+git://github.com/Lokaltog/powerline
+pip install git+git://github.com/Lokaltog/powerline
 
 POWERLINE_PATH=~/Library/Python/2.7/lib/python/site-packages/
 git clone https://github.com/powerline/powerline.git
 cp -r powerline/powerline/ $POWERLINE_PATH/powerline
-cp -r powerline/scripts/ $POWERLINE_PATH/scripts
+cp -r powerline/scripts/ $POWERLINE_PATH/powerline/scripts
 
 ####################
 # Install fonts
