@@ -1,6 +1,5 @@
 1password
 appcleaner
-atom
 dropbox
 evernote
 firefox
