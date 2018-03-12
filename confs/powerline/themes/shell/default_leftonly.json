@@ -1,6 +1,7 @@
 {
 	"segments": {
 		"above": [
+			{},
 			{
 				"left": [
 					{
@@ -34,12 +35,8 @@
 						"priority": 20
 					},
 					{
-						"function": "powerline.segments.common.vcs.branch",
-						"priority": 10,
-						"args": {
-							"status_colors": true,
-							"ignore_statuses" : ["U"]
-						}
+						"function": "powerline_gitstatus.gitstatus",
+						"priority": 40
 					}
 				]
 			}

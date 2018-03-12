@@ -57,12 +57,13 @@ done < cask-pkgs.txt
 brew cask cleanup
 echo ""
 
-git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts \
-    && /tmp/powerline-fonts/install.sh \
-    && rm -f /tmp/fonts
-
 pip install -r pip-pkgs.txt
 echo ""
+
+echo "======================================================="
+echo "Installing powerline."
+echo "======================================================="
+./powerline.sh
 
 echo "======================================================="
 echo "Configuring applications."
