@@ -29,6 +29,7 @@ spectacle
 java6
 java8
 java
+font-fira-code
 
 # rubymine
 # little-snitch

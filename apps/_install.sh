@@ -40,6 +40,7 @@ done < brew-pkgs.txt
 echo ""
 
 brew tap caskroom/versions
+brew tap caskroom/fonts
 
 echo "Installing Cask packages"
 while read pkg; do
@@ -56,24 +57,11 @@ done < cask-pkgs.txt
 brew cask cleanup
 echo ""
 
-if ! command -v "pip2" | grep "pip2" &>/dev/null; then
-    printWarning "No pip2 found Installing pip2";
-    sudo easy_install pip2
-else
-    printSuccess "pip2 is installed"
-fi
-
 git clone https://github.com/powerline/fonts.git /tmp/powerline-fonts \
     && /tmp/powerline-fonts/install.sh \
     && rm -f /tmp/fonts
 
-echo "Installing Pip2 packages"
-while read pkg; do
-    if [[ ! $pkg = \#* ]]; then
-        echo "Installing package $pkg"
-        sudo pip2 install $pkg --upgrade
-    fi
-done < pip-pkgs.txt
+pip install -r pip-pkgs.txt
 echo ""
 
 echo "======================================================="

@@ -1,2 +1,2 @@
 awscli
-powerline
+powerline-status
