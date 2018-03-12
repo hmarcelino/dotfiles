@@ -91,7 +91,7 @@ autocmd BufReadPost *
      \ endif
 
 
-set rtp+=$HOME/Library/Python/2.7/lib/python/site-packages/powerline/bindings/vim/
+set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim/
 set laststatus=2
 set guifont=Meslo\ LG\ S\ for\ Powerline
 let g:Powerline_symbols = 'fancy'

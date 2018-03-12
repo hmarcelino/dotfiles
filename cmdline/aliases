@@ -2,6 +2,7 @@
 
 alias ls='ls -G'
 alias ll='ls -lGha'
+alias vi='vim'
 
 alias mvnd='mvn -Xnoagent -Djava.compiler=NONE -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8999'
 alias mci='mvn clean install'

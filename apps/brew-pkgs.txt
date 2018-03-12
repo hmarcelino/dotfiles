@@ -11,5 +11,7 @@ wget
 jq
 golang --cross-compile-common
 autoenv
-macvim --env-std --with-override-system-vim
+macvim --with-override-system-vim
+vim --with-override-system-vi
 python
+python@2
