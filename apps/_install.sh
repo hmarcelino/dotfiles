@@ -63,7 +63,12 @@ echo ""
 echo "======================================================="
 echo "Installing powerline."
 echo "======================================================="
-./powerline.sh
+if ! command -v "powerline" | grep "powerline" &>/dev/null; then
+    ./powerline.sh
+else
+    printSuccess "Powerline is already installed"
+fi
+echo ""
 
 echo "======================================================="
 echo "Configuring applications."
