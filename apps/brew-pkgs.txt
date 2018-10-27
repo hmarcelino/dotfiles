@@ -15,3 +15,4 @@ macvim --with-override-system-vim
 vim --with-override-system-vi
 python
 python@2
+the_silver_searcher

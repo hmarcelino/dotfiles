@@ -29,6 +29,8 @@ java6
 java8
 java
 font-fira-code
+fork
+
 
 # rubymine
 # little-snitch
