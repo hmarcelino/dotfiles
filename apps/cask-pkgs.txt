@@ -7,7 +7,6 @@ flycut
 rowanj-gitx
 google-chrome
 google-backup-and-sync
-google-hangouts
 intellij-idea
 iterm2
 ngrok
@@ -19,7 +18,6 @@ skype
 the-unarchiver
 visualvm
 vlc
-grammarly
 spotify
 daisydisk
 postbox
