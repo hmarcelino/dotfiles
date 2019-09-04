@@ -22,3 +22,9 @@ alias setJdk6='export JAVA_HOME=$(/usr/libexec/java_home -v 1.6)'
 alias setJdk7='export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)'
 alias setJdk8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
 alias setJdk9='export JAVA_HOME=$(/usr/libexec/java_home -v 9)'
+alias setJdk10='export JAVA_HOME=$(/usr/libexec/java_home -v 10)'
+alias setJdk11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
+
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias top='htop'
+alias cat='bat'
