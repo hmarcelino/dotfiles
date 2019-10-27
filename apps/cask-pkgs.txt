@@ -28,6 +28,7 @@ java8
 java
 font-fira-code
 fork
+java11
 
 
 # rubymine
