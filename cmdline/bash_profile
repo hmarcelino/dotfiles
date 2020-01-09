@@ -16,3 +16,6 @@ test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shel
 source $(brew --prefix autoenv)/activate.sh
 
 source $INSTALLER_DIR/prompt
+
+eval "$(/Users/hugomarcelino/projects/company/spotqa/vts-cli/bin/vcli init -)"
+eval "$(/Users/hugomarcelino/projects/company/temp/sub/bin/tt init -)"

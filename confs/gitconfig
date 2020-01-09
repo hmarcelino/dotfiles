@@ -1,6 +1,6 @@
 [user]
 	name = Hugo Marcelino
-	email = hugo.m.marcelino@gmail.com
+	email = hugo.m@spotqa.com
 
 [color]
 	branch = auto
@@ -85,3 +85,8 @@
 	# diffFilter = diff-highlight
 [rebase]
 	autostash = true
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

@@ -20,7 +20,7 @@
     "shortcut_name" : "MoveToBottomHalf"
   },
   {
-    "shortcut_key_binding" : "ctrl+alt+cmd+end",
+    "shortcut_key_binding" : "f15",
     "shortcut_name" : "MoveToNextDisplay"
   },
   {
@@ -36,12 +36,12 @@
     "shortcut_name" : "MakeLarger"
   },
   {
-    "shortcut_key_binding" : "ctrl+alt+cmd+home",
-    "shortcut_name" : "MoveToPreviousDisplay"
-  },
-  {
     "shortcut_key_binding" : "alt+cmd+z",
     "shortcut_name" : "UndoLastMove"
+  },
+  {
+    "shortcut_key_binding" : null,
+    "shortcut_name" : "MoveToPreviousDisplay"
   },
   {
     "shortcut_key_binding" : "alt+cmd+f",

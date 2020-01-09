@@ -1,18 +1,14 @@
 # ansible
-caskroom/cask/brew-cask
 git
 hub
-mysql
 node
 openssl
-phantomjs
-postgresql
 wget
 jq
 golang --cross-compile-common
-autoenv
 macvim --with-override-system-vim
 vim --with-override-system-vi
 python
 python@2
 the_silver_searcher
+zsh
