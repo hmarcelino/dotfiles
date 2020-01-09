@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # first configure command line
-# Configure bash profile, ...
-(cd cmdline && ./_install.sh)
+# Configure zsh, ...
+(cd zsh && ./_install.sh)
 
 # The install and configure applications
 # install necessary applications, copy preferences, ...

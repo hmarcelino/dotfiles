@@ -7,14 +7,10 @@ echo "Creating links "
 echo "======================================================="
 
 # # Creating symbolic link for git configuration file
-# createSymlink "$HOME/.gitconfig" "confs/gitconfig"
-# 
+createSymlink "$HOME/.gitconfig" "confs/gitconfig"
+ 
 # # Creating symbolic link for git ignore configuration file
-# createSymlink "$HOME/.gitignore" "confs/gitignore"
-# 
+createSymlink "$HOME/.gitignore" "confs/gitignore"
+ 
 # # Creating symbolic link for vim configuration file
-# createSymlink "$HOME/.vimrc" "confs/vimrc"
-# 
-# # Creating symbolic link for powerline config files
-mkdir -p "$HOME/.config/powerline"
-createSymlink "$HOME/.config/powerline" "confs/powerline"
+createSymlink "$HOME/.vimrc" "confs/vimrc"
