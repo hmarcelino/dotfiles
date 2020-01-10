@@ -115,9 +115,15 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
+
 alias setJdk8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
 alias setJdk10='export JAVA_HOME=$(/usr/libexec/java_home -v 10)'
 alias setJdk11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
+setJdk11
+
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias top='htop'
 alias cat='bat'
+
+# SUBS
+eval "$(/Users/hugomarcelino/projects/company/spotqa/vts-cli/bin/vcli init -)"
