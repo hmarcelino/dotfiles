@@ -9,21 +9,21 @@ export ZSH="/Users/hugomarcelino/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel9k/powerlevel9k"
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir vcs status)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(root_indicator background_jobs history time)
+ 
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX_ICON=''
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX_ICON=''
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX_ICON=''
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=$'%K{cyan}%F{black} \uf155 %f%F{cyan}%k\ue0b0%f '
 
-POWERLEVEL9K_DIR_DEFAULT_FOREGROUND='white'
 POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='cyan'
-POWERLEVEL9K_DIR_HOME_FOREGROUND='white'
 POWERLEVEL9K_DIR_HOME_BACKGROUND='cyan'
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND='white'
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='cyan'
+
+POWERLEVEL9K_HOST_LOCAL_BACKGROUND='black'
+POWERLEVEL9K_TIME_FOREGROUND='black'
+POWERLEVEL9K_TIME_BACKGROUND='015' #white
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -116,6 +116,8 @@ source $ZSH/oh-my-zsh.sh
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
+alias vts='cd /Users/hugomarcelino/projects/company/spotqa/'
+
 alias setJdk8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
 alias setJdk10='export JAVA_HOME=$(/usr/libexec/java_home -v 10)'
 alias setJdk11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
@@ -127,3 +129,18 @@ alias cat='bat'
 
 # SUBS
 eval "$(/Users/hugomarcelino/projects/company/spotqa/vts-cli/bin/vcli init -)"
+autoload bashcompinit
+bashcompinit
+source /Users/hugomarcelino/projects/company/spotqa/vts-cli/completions/vcli.bash
+
+export PATH="/usr/local/sbin:$PATH"
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/hugomarcelino/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/hugomarcelino/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/hugomarcelino/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/hugomarcelino/google-cloud-sdk/completion.zsh.inc'; fi
