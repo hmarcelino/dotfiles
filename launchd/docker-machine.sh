@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if ! docker-machine ls | grep "$DOCKER_MACHINE" &>/dev/null; then
   docker-machine create $DOCKER_MACHINE
 
-  VBoxManage controlvm $DOCKER_MACHINE natpf1 "m3u-proxy,tcp,127.0.0.1,9090,,9090"
+  VBoxManage controlvm $DOCKER_MACHINE natpf1 "m3u-proxy,tcp,,9090,,9090"
 fi
 
 if docker-machine status $DOCKER_MACHINE | grep "Running" &>/dev/null; then
