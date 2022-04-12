@@ -1,10 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/Users/hugomarcelino/dotfiles'
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/Users/hugomarcelino/dotfiles/confs'
 let g:netrw_dirhist_2='/Users/hugomarcelino/dotfiles/apps'
-let g:netrw_dirhist_3='/Users/hugomarcelino/dotfiles/apps/powerline'
-let g:netrw_dirhist_4='/Users/hugomarcelino/dotfiles/confs/powerline'
-let g:netrw_dirhist_5='/usr/local/etc/nginx/servers'
-let g:netrw_dirhist_6='/Users/hugomarcelino/projects/myprojects/m3u-file-transformer/files'
-let g:netrw_dirhist_7='/Users/hugomarcelino/projects/myprojects/m3u-proxy/files/logs'
-let g:netrw_dirhist_8='/usr/local/etc/nginx/servers'
+let g:netrw_dirhist_1='/Users/hugomarcelino/projects/cob/sigrev4/web/node_modules'

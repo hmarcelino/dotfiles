@@ -1,3 +1,0 @@
-awscli
-powerline-status
-powerline-gitstatus

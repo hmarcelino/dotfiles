@@ -8,13 +8,3 @@ Host gitlab.com
 Host bitbucket.org
   HostName bitbucket.org
   IdentityFile ~/.ssh/bitbucket
-
-Host aws-jenkins
-   Hostname 52.17.205.158
-   IdentityFile ~/.ssh/mb-jenkins
-   User ec2-user
-
-Host aws-phantom
-   Hostname ec2-52-17-181-41.eu-west-1.compute.amazonaws.com
-   IdentityFile ~/.ssh/mb-jenkins
-   User ec2-user

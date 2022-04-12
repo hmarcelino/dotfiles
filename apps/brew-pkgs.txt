@@ -1,14 +1,29 @@
-# ansible
 git
-hub
 node
 openssl
 wget
 jq
-golang --cross-compile-common
-macvim --with-override-system-vim
-vim --with-override-system-vi
-python
-python@2
+golang
 the_silver_searcher
-zsh
+1password
+dropbox
+evernote
+firefox
+flycut
+google-chrome
+google-drive
+intellij-idea
+iterm2
+ngrok
+nvalt
+qlmarkdown
+slack
+skype
+the-unarchiver
+visualvm
+vlc
+spotify
+daisydisk
+rectangle
+font-fira-code
+asdf

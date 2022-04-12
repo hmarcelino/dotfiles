@@ -128,10 +128,10 @@ alias top='htop'
 alias cat='bat'
 
 # SUBS
-eval "$(/Users/hugomarcelino/projects/company/spotqa/vts-cli/bin/vcli init -)"
-autoload bashcompinit
-bashcompinit
-source /Users/hugomarcelino/projects/company/spotqa/vts-cli/completions/vcli.bash
+# eval "$(/Users/hugomarcelino/projects/company/spotqa/vts-cli/bin/vcli init -)"
+# autoload bashcompinit
+# bashcompinit
+# source /Users/hugomarcelino/projects/company/spotqa/vts-cli/completions/vcli.bash
 
 export PATH="/usr/local/sbin:$PATH"
 
@@ -144,3 +144,5 @@ if [ -f '/Users/hugomarcelino/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/h
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/hugomarcelino/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/hugomarcelino/google-cloud-sdk/completion.zsh.inc'; fi
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
