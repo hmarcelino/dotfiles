@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -8,22 +15,22 @@ export ZSH="/Users/hugomarcelino/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
  
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=$'%K{cyan}%F{black} \uf155 %f%F{cyan}%k\ue0b0%f '
-
-POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='cyan'
-POWERLEVEL9K_DIR_HOME_BACKGROUND='cyan'
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='cyan'
-
-POWERLEVEL9K_HOST_LOCAL_BACKGROUND='black'
-POWERLEVEL9K_TIME_FOREGROUND='black'
-POWERLEVEL9K_TIME_BACKGROUND='015' #white
+# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(host dir vcs)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
+# POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+# POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+# POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
+# POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=$'%K{cyan}%F{black} \uf155 %f%F{cyan}%k\ue0b0%f '
+# 
+# POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='cyan'
+# POWERLEVEL9K_DIR_HOME_BACKGROUND='cyan'
+# POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='cyan'
+# 
+# POWERLEVEL9K_HOST_LOCAL_BACKGROUND='black'
+# POWERLEVEL9K_TIME_FOREGROUND='black'
+# POWERLEVEL9K_TIME_BACKGROUND='015' #white
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -113,25 +120,23 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
+
+alias ll="exa -lh --icons --sort=name --group-directories-first"
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
-alias vts='cd /Users/hugomarcelino/projects/company/spotqa/'
+alias vts='cd /Users/hugomarcelino/projects/spotqa/'
+alias cob='cd /Users/hugomarcelino/projects/cob/'
 
-alias setJdk8='export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)'
-alias setJdk10='export JAVA_HOME=$(/usr/libexec/java_home -v 10)'
+alias setJdk15='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
 alias setJdk11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
-setJdk11
 
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias top='htop'
 alias cat='bat'
 
-# SUBS
-# eval "$(/Users/hugomarcelino/projects/company/spotqa/vts-cli/bin/vcli init -)"
-# autoload bashcompinit
-# bashcompinit
-# source /Users/hugomarcelino/projects/company/spotqa/vts-cli/completions/vcli.bash
+alias prcreate='gh pr create --web'
+alias prview='gh pr view --web'
 
 export PATH="/usr/local/sbin:$PATH"
 
@@ -139,10 +144,13 @@ export PATH="/usr/local/sbin:$PATH"
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/hugomarcelino/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/hugomarcelino/google-cloud-sdk/path.zsh.inc'; fi
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/hugomarcelino/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/hugomarcelino/google-cloud-sdk/completion.zsh.inc'; fi
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+eval "$(/Users/hugomarcelino/projects/spotqa/vcli/bin/vcli init -)"
+source /Users/hugomarcelino/projects/spotqa/vcli/completions/vcli.bash
+
+. /usr/local/opt/asdf/libexec/asdf.sh

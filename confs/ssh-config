@@ -1,6 +1,5 @@
 TCPKeepAlive yes
 
-#https://confluence.atlassian.com/pages/viewpage.action?pageId=271943168
 Host gitlab.com
   HostName gitlab.com
   IdentityFile ~/.ssh/gitlab

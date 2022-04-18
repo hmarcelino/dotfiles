@@ -27,3 +27,6 @@ daisydisk
 rectangle
 font-fira-code
 asdf
+gh
+dive
+ripgrep
