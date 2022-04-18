@@ -150,7 +150,4 @@ export PATH="/usr/local/sbin:$PATH"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
-eval "$(/Users/hugomarcelino/projects/spotqa/vcli/bin/vcli init -)"
-source /Users/hugomarcelino/projects/spotqa/vcli/completions/vcli.bash
-
-. /usr/local/opt/asdf/libexec/asdf.sh
+. /opt/homebrew/opt/asdf/libexec/asdf.sh

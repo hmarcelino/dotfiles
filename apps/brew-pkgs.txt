@@ -30,3 +30,4 @@ asdf
 gh
 dive
 ripgrep
+exa

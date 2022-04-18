@@ -15,6 +15,9 @@ git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/theme
 mkdir -p ~/.oh-my-zsh/custom/plugins/zsh-docker
 git clone https://github.com/zsh-users/zsh-docker.git ~/.oh-my-zsh/custom/plugins/zsh-docker
 
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+
 # Creating symbolic link for git configuration file
-createSymlink "$HOME/c" "zsh/zshrc"
+createSymlink "$HOME/.zshrc" "zsh/zshrc"
+createSymlink "$HOME/.p10k.zsh" "zsh/p10k.zsh"
 
