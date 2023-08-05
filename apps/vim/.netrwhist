@@ -1,5 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/Users/hugomarcelino/dotfiles/apps'
+let g:netrw_dirhist_4='/Users/hugomarcelino/dotfiles'
+let g:netrw_dirhist_3='/Users/hugomarcelino/dotfiles/apps'
 let g:netrw_dirhist_2='/Users/hugomarcelino/.oh-my-zsh'
 let g:netrw_dirhist_1='/Users/hugomarcelino/.asdf/installs/nodejs/16.17.0/.npm/lib/node_modules/cob-cli/lib'
 let g:netrw_dirhist_0='/Users/hugomarcelino/.asdf/installs/nodejs/16.17.0/.npm/lib/node_modules/cob-cli'
@@ -7,6 +10,3 @@ let g:netrw_dirhist_9='/Users/hugomarcelino/projects/cob/client-solutions/server
 let g:netrw_dirhist_8='/Users/hugomarcelino/projects/cob/client-solutions/server_newgta/others/mobile'
 let g:netrw_dirhist_7='/Users/hugomarcelino/projects/sample/icons/examples/vite-vue3-legacy'
 let g:netrw_dirhist_6='/Users/hugomarcelino/projects'
-let g:netrw_dirhist_5='/Users/hugomarcelino/projects/cob/devops/.bundle'
-let g:netrw_dirhist_4='/Users/hugomarcelino/dotfiles/zsh'
-let g:netrw_dirhist_3='/Users/hugomarcelino/dotfiles/confs'

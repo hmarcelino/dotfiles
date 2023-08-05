@@ -140,6 +140,14 @@ alias prview='gh pr view --web'
 
 export PATH="/usr/local/sbin:/opt/homebrew/bin:$PATH"
 
+function set-profile(){
+    echo -e "\033]50;SetProfile=$1\a"
+}
+
+function go-to-default(){
+    echo -e "\033]50;SetProfile=Default\a"
+}
+
 # tabtab source for packages
 # uninstall by removing these lines
 [[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
@@ -158,3 +166,6 @@ eval "$(rbenv init - zsh)"
 # begin cob-cli completion
 . <(cob-cli --completion)
 # end cob-cli completion
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
