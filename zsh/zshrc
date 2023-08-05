@@ -61,7 +61,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -121,12 +121,12 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 
-alias ll="exa -lh --icons --sort=name --group-directories-first"
+alias ll="exa -lha --icons --sort=name --group-directories-first"
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 
 alias vts='cd /Users/hugomarcelino/projects/spotqa/'
-alias cob='cd /Users/hugomarcelino/projects/cob/'
+alias gocob='cd /Users/hugomarcelino/projects/cob/'
 
 alias setJdk15='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
 alias setJdk11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
@@ -138,7 +138,7 @@ alias cat='bat'
 alias prcreate='gh pr create --web'
 alias prview='gh pr view --web'
 
-export PATH="/usr/local/sbin:$PATH"
+export PATH="/usr/local/sbin:/opt/homebrew/bin:$PATH"
 
 # tabtab source for packages
 # uninstall by removing these lines
@@ -150,4 +150,11 @@ export PATH="/usr/local/sbin:$PATH"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
 
+eval "$(/Users/hugomarcelino/projects/cob/utils/cob/bin/cob init -)"
+eval "$(rbenv init - zsh)"
+
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# begin cob-cli completion
+. <(cob-cli --completion)
+# end cob-cli completion

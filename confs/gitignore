@@ -15,3 +15,5 @@
 .*.sw[a-z]
 *.un~
 Session.vim
+
+.tool-versions

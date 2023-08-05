@@ -1,6 +1,6 @@
 [user]
 	name = Hugo Marcelino
-	email = hugo.m@spotqa.com
+    email = hugo.m.marcelino@gmail.com
 
 [color]
 	branch = auto
@@ -23,6 +23,9 @@
 
     mg = merge
     mt = mergetool                    # fire up the merge tool
+    
+    rs = restore --staged
+    reset = restore .
 
     pa = add --patch
     ua = reset HEAD .                 # unstage all
@@ -92,3 +95,5 @@
 	process = git-lfs filter-process
 [pager]
 	branch = false
+[init]
+	defaultBranch = main
