@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =5
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/Users/hugomarcelino/.m2/repository/com/cultofbits/integrationm'
 let g:netrw_dirhist_5='/Users/hugomarcelino/dotfiles/apps'
 let g:netrw_dirhist_4='/Users/hugomarcelino/dotfiles'
 let g:netrw_dirhist_3='/Users/hugomarcelino/dotfiles/apps'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_0='/Users/hugomarcelino/.asdf/installs/nodejs/16.17.0/.npm/l
 let g:netrw_dirhist_9='/Users/hugomarcelino/projects/cob/client-solutions/server_learning/recordm/customUI/css'
 let g:netrw_dirhist_8='/Users/hugomarcelino/projects/cob/client-solutions/server_newgta/others/mobile'
 let g:netrw_dirhist_7='/Users/hugomarcelino/projects/sample/icons/examples/vite-vue3-legacy'
-let g:netrw_dirhist_6='/Users/hugomarcelino/projects'
