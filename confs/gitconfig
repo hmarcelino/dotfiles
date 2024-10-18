@@ -44,6 +44,7 @@
     lb = branch -a
     df = diff
     dfc= diff --cached                # diff staged changes
+    diff-files= diff --name-only $1
 
     # log
     lg = log -p
