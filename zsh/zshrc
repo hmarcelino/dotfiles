@@ -61,7 +61,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
+# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -127,8 +127,6 @@ autoload -U +X bashcompinit && bashcompinit
 eval "$(/Users/hugomarcelino/projects/cob/utils/cob/bin/cob init -)"
 eval "$(rbenv init - zsh)"
 
-. /usr/local/opt/asdf/libexec/asdf.sh
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -141,12 +139,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 alias ll="exa -lha --icons --sort=name --group-directories-first"
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
-# alias git='LANG=en_GB git'
-
 alias gocob='cd /Users/hugomarcelino/projects/cob/'
 alias top='htop'
 alias cat='bat'
-
 alias prcreate='gh pr create --web'
 alias prview='gh pr view --web'
 
@@ -172,7 +167,7 @@ function load_last_directory {
     fi
 }
 
-. /usr/local/opt/asdf/libexec/asdf.sh
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 # begin cob-cli completion
 . <(cob-cli --completion)
