@@ -124,8 +124,10 @@ source $ZSH/oh-my-zsh.sh
 
 autoload -U +X bashcompinit && bashcompinit
 
+#. /opt/homebrew/opt/asdf/libexec/asdf.sh
+
 eval "$(/Users/hugomarcelino/projects/cob/utils/cob/bin/cob init -)"
-eval "$(rbenv init - zsh)"
+#eval "$(rbenv init - zsh)"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -136,39 +138,20 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 #
 # Example aliases
 
-alias ll="exa -lha --icons --sort=name --group-directories-first"
+alias ll="eza -lha --icons --sort=name --group-directories-first"
 alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias gocob='cd /Users/hugomarcelino/projects/cob/'
 alias top='htop'
 alias cat='bat'
-alias prcreate='gh pr create --web'
-alias prview='gh pr view --web'
+alias ghcreate='gh pr create --web'
+alias ghpr='gh pr view --web'
 
-export PATH="/usr/local/sbin:/opt/homebrew/bin:$PATH"
-
-function set-profile(){
-    echo -e "\033]50;SetProfile=$1\a"
-}
-
-function dt(){
-    echo -e "\033]50;SetProfile=Default\a"
-}
-
-# Save the last directory on exit
-function save_last_directory {
-    echo "$PWD" > ~/.last_directory
-}
-
-# Change to the last directory on startup
-function load_last_directory {
-    if [ -f ~/.last_directory ]; then
-        cd "$(cat ~/.last_directory)"
-    fi
-}
-
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+export PATH="/usr/local/sbin:$PATH"
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
 # begin cob-cli completion
 . <(cob-cli --completion)
 # end cob-cli completion
+#
+export PATH="$HOME/.local/bin:$PATH"
