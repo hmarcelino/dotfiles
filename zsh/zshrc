@@ -126,6 +126,7 @@ autoload -U +X bashcompinit && bashcompinit
 
 #. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
+#eval "$(/Users/hugomarcelino/dev-utils/bin/dev init -)"
 eval "$(/Users/hugomarcelino/projects/cob/utils/cob/bin/cob init -)"
 #eval "$(rbenv init - zsh)"
 
@@ -150,8 +151,8 @@ alias ghpr='gh pr view --web'
 export PATH="/usr/local/sbin:$PATH"
 export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 
+export PATH="$HOME/.local/bin:$PATH"
+
 # begin cob-cli completion
 . <(cob-cli --completion)
 # end cob-cli completion
-#
-export PATH="$HOME/.local/bin:$PATH"
