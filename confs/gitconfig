@@ -81,7 +81,8 @@
   tool = mvimdiff
 
 [push]
-  default = matching
+	default = simple
+	autoSetupRemote = true
 
 [ghi]
 	token = !security find-internet-password -a hmarcelino -s github.com -l 'ghi token' -w
